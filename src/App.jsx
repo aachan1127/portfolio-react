@@ -23,7 +23,7 @@ function App() {
     <>
       <h1>Hollo World</h1>
       <Button type="button" disabled={false} onClick={handleClick} >
-        ボタン
+        push!
       </Button>
       <Display count={count}>
 
