@@ -1,35 +1,32 @@
-import { useState, useEffect, use } from "react";
-import './App.css';
-import Button from "./components/Button/Button.jsx";
-import Display from "./components/Display/Display.jsx";
-
+import { useState } from "react";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Home from "./components/Home";
+import CreatePost from "./components/CreatePost";
+import Login from "./components/Login";
+import Logout from "./components/Logout";
+import Navbar from "./components/Navbar";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [isAuth, setAuth] = useState(false);
 
-  const handleClick = () => {
-    setCount(count + 1);
-  }
-
-  useEffect(() => {
-    console.log("count:", count);
-    if(count > 5) {
-      setCount(0);
-    }
-  }
-  , [count]);
+  // ページをリロードしてもログイン状態を保持するための処理↓
+  // function App() {
+  // const [isAuth, setAuth] = useState(
+  //   localStorage.getItem("isAuth") === "true"
+  // );
 
   return (
-    <>
-      <h1>Hollo World</h1>
-      <Button type="button" disabled={false} onClick={handleClick} >
-        push!
-      </Button>
-      <Display count={count}>
-
-      </Display>
-    </>
+    <Router>
+      <Navbar isAuth={isAuth}></Navbar>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/createpost" element={<CreatePost />}></Route>
+        <Route path="/login" element={<Login setIsAuth={setAuth} />}></Route>
+        <Route path="/logout" element={<Logout />}></Route>
+      </Routes>
+    </Router>
   );
 }
 
-export default App
+export default App;
