@@ -14,7 +14,7 @@ const Logout = ({ setIsAuth }) => {
       navigate("/login");
       })
       .catch((error) => {
-        console.error("ログインエラー:", error.code, error.message);
+        console.error("ログアウトエラー:", error.code, error.message);
       });
   };
 
