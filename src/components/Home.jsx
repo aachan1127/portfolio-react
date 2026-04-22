@@ -3,10 +3,12 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db, auth } from "../lib/firebase";
 import { storage } from "../lib/firebase";
 import { ref, deleteObject } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 export const Home = () => {
   const [postList, setPostList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPosts = async () => {
@@ -73,12 +75,22 @@ export const Home = () => {
               )
             )}
 
+            {/* ↓ post.author?.id === auth.currentUser?.uid && 
+                でログインしているユーザーにだけ削除・編集ボタンを表示させる */}
             <div className="nameAndDeleteButton">
               <h3>@{post.author?.name}</h3>
               {post.author?.id === auth.currentUser?.uid && (
                 <button onClick={() => handleDelete(post)}>削除</button>
               )}
             </div>
+
+            {post.author?.id === auth.currentUser?.uid && (
+              <div className="EditButton">
+                <button onClick={() => navigate(`/editpost/${post.id}`)}>
+                  編集
+                </button>
+              </div>
+            )}
           </div>
         );
       })}

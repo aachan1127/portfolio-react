@@ -19,6 +19,7 @@ export const CreatePost = ({ isAuth }) => {
     selectedImagesRef.current = selectedImages;
   }, [selectedImages]);
 
+  // 画像選択の処理
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
 
