@@ -1,10 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./EditPost.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { storage } from "../lib/firebase";
-import { ref, deleteObject } from "firebase/storage";
-import { db } from "../lib/firebase";
+import { auth, db, storage } from "../lib/firebase";
+import {
+  ref,
+  deleteObject,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
 
 const EditPost = () => {
   const { id } = useParams();
@@ -15,6 +19,7 @@ const EditPost = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
   const [originalImages, setOriginalImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   useEffect(() => {
     const getPost = async () => {
@@ -61,6 +66,65 @@ const EditPost = () => {
     );
   };
 
+  // 並び替え（上）
+  const moveExistingImageUp = (index) => {
+    if (index === 0) return;
+
+    setExistingImages((prev) => {
+      const newImages = [...prev];
+      [newImages[index - 1], newImages[index]] = [
+        newImages[index],
+        newImages[index - 1],
+      ];
+      return newImages;
+    });
+  };
+
+  // 並び替え（下）
+  const moveExistingImageDown = (index) => {
+    setExistingImages((prev) => {
+      if (index === prev.length - 1) return prev;
+
+      const newImages = [...prev];
+      [newImages[index], newImages[index + 1]] = [
+        newImages[index + 1],
+        newImages[index],
+      ];
+      return newImages;
+    });
+  };
+
+  // ↓選択した画像を消す関数
+  const handleRemoveSelectedImage = (targetId) => {
+    setSelectedImages((prev) => {
+      const target = prev.find((image) => image.id === targetId);
+      if (target) {
+        URL.revokeObjectURL(target.previewUrl);
+      }
+      return prev.filter((image) => image.id !== targetId);
+    });
+  };
+
+  // ↓新しい画像を選んだときの処理（CreatePostと同じ）
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files || []);
+
+    if (files.length === 0) {
+      return;
+    }
+
+    const newImages = files.map((file) => ({
+      id: `${Date.now()}_${file.name}_${Math.random().toString(16).slice(2)}`,
+      file: file,
+      fileName: file.name,
+      previewUrl: URL.createObjectURL(file),
+    }));
+
+    setSelectedImages((prev) => [...prev, ...newImages]);
+
+    e.target.value = "";
+  };
+
   // ↓ 更新ボタン押した時の処理
   const navigate = useNavigate();
 
@@ -78,6 +142,13 @@ const EditPost = () => {
     try {
       setIsSubmitting(true);
 
+      if (!auth.currentUser) {
+        alert("ログイン情報が見つかりません");
+        navigate("/login");
+        return;
+      }
+
+      const uid = auth.currentUser.uid;
       const updatedImageUrls = existingImages.map((image) => image.url);
       const updatedImagePaths = existingImages.map((image) => image.path);
       const updatedImageFileNames = existingImages.map(
@@ -90,7 +161,47 @@ const EditPost = () => {
           !existingImages.some((current) => current.path === original.path),
       );
 
-      //  ② Storage から削除された画像を消す
+      const docRef = doc(db, "posts", id);
+
+      //    新しい画像をStorageにアップロードしてURLを取得する（CreatePostと同じ）
+      const newImageUrls = [];
+      const newImagePaths = [];
+      const newImageFileNames = [];
+
+      for (const image of selectedImages) {
+        const file = image.file;
+        const fileName = `${Date.now()}_${file.name}`;
+        const imageRef = ref(storage, `postImages/${uid}/${fileName}`);
+
+        await uploadBytes(imageRef, file);
+
+        const url = await getDownloadURL(imageRef);
+
+        newImageUrls.push(url);
+        newImagePaths.push(imageRef.fullPath);
+        newImageFileNames.push(file.name);
+      }
+
+      const finalImageUrls = [...updatedImageUrls, ...newImageUrls];
+      const finalImagePaths = [...updatedImagePaths, ...newImagePaths];
+      const finalImageFileNames = [
+        ...updatedImageFileNames,
+        ...newImageFileNames,
+      ];
+
+      // ③ Firestore更新
+      await updateDoc(docRef, {
+        title: title,
+        postText: postText,
+        // imageUrls: updatedImageUrls,
+        // imagePaths: updatedImagePaths,
+        // imageFileNames: updatedImageFileNames,
+        imageUrls: finalImageUrls,
+        imagePaths: finalImagePaths,
+        imageFileNames: finalImageFileNames,
+      });
+
+      // ④ Firestore更新後に、不要になった既存画像をStorageから削除
       if (deletedImages.length > 0) {
         for (const image of deletedImages) {
           const imageRef = ref(storage, image.path);
@@ -98,15 +209,8 @@ const EditPost = () => {
         }
       }
 
-      const docRef = doc(db, "posts", id);
-
-      // ③ Firestore更新
-      await updateDoc(docRef, {
-        title: title,
-        postText: postText,
-        imageUrls: updatedImageUrls,
-        imagePaths: updatedImagePaths,
-        imageFileNames: updatedImageFileNames,
+      selectedImages.forEach((image) => {
+        URL.revokeObjectURL(image.previewUrl);
       });
 
       navigate("/");
@@ -146,6 +250,38 @@ const EditPost = () => {
           ></textarea>
         </div>
 
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          onChange={handleImageChange}
+        />
+
+        {selectedImages.length > 0 && (
+          <div>
+            <div>新しく追加する画像</div>
+            <div className="existingImagesContainer">
+              {selectedImages.map((image, index) => (
+                <div className="selectedImageContainer" key={image.id}>
+                  <button
+                    type="button"
+                    className="removeImageButton"
+                    onClick={() => handleRemoveSelectedImage(image.id)}
+                  >
+                    ×
+                  </button>
+
+                  <img
+                    src={image.previewUrl}
+                    alt={`New ${index + 1}`}
+                    className="existingImagesImage"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div>
           <div>画像</div>
           <div className="existingImagesContainer">
@@ -164,6 +300,24 @@ const EditPost = () => {
                   alt={`Selected ${index + 1}`}
                   className="existingImagesImage"
                 />
+
+                <div className="sortButtons">
+                  <button
+                    type="button"
+                    onClick={() => moveExistingImageUp(index)}
+                    disabled={index === 0}
+                  >
+                    ↑
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => moveExistingImageDown(index)}
+                    disabled={index === existingImages.length - 1}
+                  >
+                    ↓
+                  </button>
+                </div>
               </div>
             ))}
           </div>
