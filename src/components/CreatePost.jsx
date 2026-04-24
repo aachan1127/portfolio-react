@@ -10,6 +10,7 @@ export const CreatePost = ({ isAuth }) => {
   const [postText, setPostText] = useState("");
   const [selectedImages, setSelectedImages] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
   const selectedImagesRef = useRef([]);
 
   const navigate = useNavigate();
@@ -142,6 +143,8 @@ export const CreatePost = ({ isAuth }) => {
         title: title,
         postText: postText,
         imageUrls: imageUrls,
+        // .trim()で前後の空白を自動で削除する
+        videoUrl: videoUrl.trim(),
         imagePaths: imagePaths,
         thumbnailUrl: imageUrls[0],
         imageFileNames: selectedImages.map((image) => image.fileName),
@@ -196,6 +199,15 @@ export const CreatePost = ({ isAuth }) => {
             placeholder="説明を記入"
             onChange={(e) => setPostText(e.target.value)}
           ></textarea>
+        </div>
+
+        <div className="inputPost">
+          <div>動画URL</div>
+          <input
+            type="text"
+            placeholder="動画URLを記入"
+            onChange={(e) => setVideoUrl(e.target.value)}
+          />
         </div>
 
         <input

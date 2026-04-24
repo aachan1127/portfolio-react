@@ -18,6 +18,22 @@ export const Home = () => {
     getPosts();
   }, []);
 
+  const getYouTubeEmbedUrl = (url) => {
+    if (!url) return "";
+
+    let videoId = "";
+
+    if (url.includes("shorts/")) {
+      videoId = url.split("shorts/")[1].split("?")[0];
+    } else if (url.includes("v=")) {
+      videoId = url.split("v=")[1].split("&")[0];
+    }
+
+    if (!videoId) return "";
+
+    return `https://www.youtube.com/embed/${videoId}`;
+  };
+
   const handleDelete = async (post) => {
     try {
       // 🔥 ① Storage の画像削除
@@ -51,6 +67,7 @@ export const Home = () => {
 
             <div className="postTextContainer">{post.postText}</div>
 
+            {/* 画像表示 */}
             {post.imageUrls?.length > 0 ? (
               <div className="postImageListContainer">
                 {post.imageUrls.map((url, index) => (
@@ -73,6 +90,18 @@ export const Home = () => {
                   />
                 </div>
               )
+            )}
+
+            {/* 動画表示 */}
+            {post.videoUrl && (
+              <div className="postVideoContainer">
+                <iframe
+                  src={getYouTubeEmbedUrl(post.videoUrl)}
+                  title={post.title}
+                  className="postVideo"
+                  allowFullScreen
+                />
+              </div>
             )}
 
             {/* ↓ post.author?.id === auth.currentUser?.uid && 
