@@ -152,6 +152,8 @@ export const CreatePost = ({ isAuth }) => {
           name: auth.currentUser.displayName,
           id: uid,
         },
+        studyDisplayRank: null,
+        worksDisplayRank: null,
       });
 
       navigate("/");
