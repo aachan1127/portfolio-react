@@ -66,7 +66,6 @@ export const Home = () => {
     }
   };
 
-
   const handleChangeDisplayPost = async (newPost, section, rank) => {
     const rankField =
       section === "study" ? "studyDisplayRank" : "worksDisplayRank";
@@ -112,16 +111,17 @@ export const Home = () => {
   const subStudyPost = postList.find((post) => post.studyDisplayRank === 2);
   // studyDisplayRankが3以上の投稿だけ取り出して、順位順に並べる（その他の画像を判別するため）
   const otherStudyPosts = postList
-    .filter((post) => post.studyDisplayRank >= 3)
+    .filter((post) => post.studyDisplayRank >= 3 && post.studyDisplayRank <= 6)
     .sort((a, b) => a.studyDisplayRank - b.studyDisplayRank);
 
   // worksDisplayRankも同様に、どの位置に表示させるかを判断するための値を作る
   const mainWorksPost = postList.find((post) => post.worksDisplayRank === 1);
   const subWorksPost = postList.find((post) => post.worksDisplayRank === 2);
 
-  const otherWorksPosts = postList
-    .filter((post) => post.worksDisplayRank >= 3)
-    .sort((a, b) => a.worksDisplayRank - b.worksDisplayRank);
+  // ↓今はまだworksの投稿が２つだけなのでここは使わない。２つ以上表示させたい時に使う。
+  // const otherWorksPosts = postList
+  //   .filter((post) => post.worksDisplayRank >= 3)
+  //   .sort((a, b) => a.worksDisplayRank - b.worksDisplayRank);
 
   // JSXで表示する
   return (
@@ -203,7 +203,7 @@ export const Home = () => {
 
       {otherStudyPosts.length > 0 && (
         <div className="studyOthers">
-          <p>その他（一覧）</p>
+          <p>その他</p>
 
           {otherStudyPosts.map((post) => (
             <div key={post.id} className="studyOtherItem">
@@ -217,6 +217,10 @@ export const Home = () => {
           ))}
         </div>
       )}
+
+      <button type="button" onClick={() => navigate("/study")}>
+        Study一覧を見る
+      </button>
 
       {/* ----- Works ----- */}
       {mainWorksPost && (
@@ -243,7 +247,6 @@ export const Home = () => {
 
       {subWorksPost && (
         <div className="worksSub">
-
           <img
             src={subWorksPost.thumbnailUrl}
             alt={subWorksPost.title}

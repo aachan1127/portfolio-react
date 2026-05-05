@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Logout from "./components/Logout";
 import Navbar from "./components/Navbar";
 import EditPost from "./components/EditPost";
+import StudyList from "./components/StudyList";
 
 function App() {
   // ↓ リロードしてもログイン状態を管理するためのstate
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login setIsAuth={setAuth} />}></Route>
         <Route path="/logout" element={<Logout setIsAuth={setAuth} />}></Route>
         <Route path="/editpost/:id" element={<EditPost />} />
+        <Route path="/study" element={<StudyList />} />
       </Routes>
     </Router>
   );
