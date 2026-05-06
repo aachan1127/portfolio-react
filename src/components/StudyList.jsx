@@ -7,6 +7,7 @@ import "./Home.css";
 const StudyList = () => {
   // stateを用意
   const [studyPosts, setStudyPosts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getStudyPosts = async () => {
@@ -34,6 +35,7 @@ const StudyList = () => {
             src={post.thumbnailUrl}
             alt={post.title}
             style={{ width: "200px" }}
+            onClick={() => navigate(`/study/${post.id}`)}
           />
           <p>{post.title}</p>
         </div>
