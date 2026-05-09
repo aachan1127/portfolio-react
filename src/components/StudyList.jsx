@@ -17,10 +17,9 @@ const StudyList = () => {
 
         id: doc.id,
       }));
-
-      const studyOnlyPosts = posts
-        .filter((post) => post.studyDisplayRank !== null)
-        .sort((a, b) => a.studyDisplayRank - b.studyDisplayRank);
+    
+      // categoryが"study"のものだけを抽出してstateにセットする
+      const studyOnlyPosts = posts.filter((post) => post.category === "study");
       setStudyPosts(studyOnlyPosts);
     };
     getStudyPosts();
