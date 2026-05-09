@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 const StudyDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getPost = async () => {
@@ -35,15 +36,25 @@ const StudyDetail = () => {
     return `https://www.youtube.com/embed/${videoId}`;
   };
 
+  // ここで return することで、その下の処理には進まないようにする
+  if (!post) {
+    return <p>読み込み中...</p>;
+  }
+
+  // postの取得ができたら下記を表示する
   return (
     <div>
+      <button type="button" onClick={() => navigate("/study")}>
+        Study一覧に戻る
+      </button>
+
       <h1>Study詳細ページ</h1>
 
       <p>投稿ID: {id}</p>
-      <p>{post?.title}</p>
-      <p>{post?.postText}</p>
+      <p>{post.title}</p>
+      <p>{post.postText}</p>
 
-      {post?.imageUrls?.length > 0 && (
+      {post.imageUrls?.length > 0 && (
         <div>
           {post.imageUrls.map((url, index) => (
             <img

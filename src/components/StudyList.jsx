@@ -28,6 +28,10 @@ const StudyList = () => {
 
   return (
     <div>
+      <button type="button" onClick={() => navigate("/")}>
+        ホームに戻る
+      </button>
+
       <h1>Study一覧</h1>
       {studyPosts.map((post) => (
         <div key={post.id}>

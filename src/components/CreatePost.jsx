@@ -12,9 +12,10 @@ export const CreatePost = ({ isAuth }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const selectedImagesRef = useRef([]);
-
   const navigate = useNavigate();
   const postsCollectionRef = collection(db, "posts");
+  // 未選択でもStudyとして保存できるようにするため、初期値は"study"にしておく
+  const [category, setCategory] = useState("study");
 
   useEffect(() => {
     selectedImagesRef.current = selectedImages;
@@ -152,8 +153,9 @@ export const CreatePost = ({ isAuth }) => {
           name: auth.currentUser.displayName,
           id: uid,
         },
-        studyDisplayRank: null,
-        worksDisplayRank: null,
+        category: category,
+        studyDisplayRank: category === "study" ? 7 : null,
+        worksDisplayRank: category === "works" ? 3 : null,
       });
 
       navigate("/");
@@ -210,6 +212,18 @@ export const CreatePost = ({ isAuth }) => {
             placeholder="動画URLを記入"
             onChange={(e) => setVideoUrl(e.target.value)}
           />
+        </div>
+
+        <div className="inputPost">
+          <div>カテゴリ</div>
+          <select
+            value={category}
+            // selectで選ばれた値をcategoryのstateにセットする
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="study">Study</option>
+            <option value="works">Works</option>
+          </select>
         </div>
 
         <input
