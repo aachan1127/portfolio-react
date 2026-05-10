@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { getYoutubeVideoId } from "../youtube";
+import { getYoutubeVideoId, getYoutubeEmbedUrl } from "../utils/youtube";
 
 describe("getYoutubeVideoId", () => {
   test("通常のYouTube URLからvideoIdを取得できる", () => {
@@ -22,5 +22,13 @@ describe("getYoutubeVideoId", () => {
 
   test("空文字はnullを返す", () => {
     expect(getYoutubeVideoId("")).toBe(null);
+  });
+
+  test("embed URLを生成できる", () => {
+    const url = "https://www.youtube.com/watch?v=abc123";
+
+    expect(getYoutubeEmbedUrl(url)).toBe(
+      "https://www.youtube.com/embed/abc123",
+    );
   });
 });

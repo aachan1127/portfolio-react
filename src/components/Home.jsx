@@ -10,6 +10,7 @@ import { db, auth } from "../lib/firebase";
 import { storage } from "../lib/firebase";
 import { ref, deleteObject } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import { getYoutubeEmbedUrl } from "./utils/youtube";
 import "./Home.css";
 
 export const Home = () => {
@@ -28,21 +29,22 @@ export const Home = () => {
     getPosts();
   }, []);
 
-  const getYouTubeEmbedUrl = (url) => {
-    if (!url) return "";
+  // YouTubeのURLから埋め込み用のURLを生成する関数 はutils/youtube.jsに移動
+  // const getYouTubeEmbedUrl = (url) => {
+  //   if (!url) return "";
 
-    let videoId = "";
+  //   let videoId = "";
 
-    if (url.includes("shorts/")) {
-      videoId = url.split("shorts/")[1].split("?")[0];
-    } else if (url.includes("v=")) {
-      videoId = url.split("v=")[1].split("&")[0];
-    }
+  //   if (url.includes("shorts/")) {
+  //     videoId = url.split("shorts/")[1].split("?")[0];
+  //   } else if (url.includes("v=")) {
+  //     videoId = url.split("v=")[1].split("&")[0];
+  //   }
 
-    if (!videoId) return "";
+  //   if (!videoId) return "";
 
-    return `https://www.youtube.com/embed/${videoId}`;
-  };
+  //   return `https://www.youtube.com/embed/${videoId}`;
+  // };
 
   const handleDelete = async (post) => {
     // 削除処理
@@ -303,7 +305,7 @@ export const Home = () => {
             {post.videoUrl && (
               <div className="postVideoContainer">
                 <iframe
-                  src={getYouTubeEmbedUrl(post.videoUrl)}
+                  src={getYoutubeEmbedUrl(post.videoUrl)}
                   title={post.title}
                   className="postVideo"
                   allowFullScreen

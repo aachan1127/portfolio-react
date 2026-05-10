@@ -11,3 +11,11 @@ export const getYoutubeVideoId = (url) => {
 
   return null;
 };
+
+export const getYoutubeEmbedUrl = (url) => {
+  const videoId = getYoutubeVideoId(url);
+
+  if (!videoId) return "";
+
+  return `https://www.youtube.com/embed/${videoId}`;
+};
