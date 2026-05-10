@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
-const StudyDetail = () => {
+const WorksDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
   const navigate = useNavigate();
@@ -44,11 +44,11 @@ const StudyDetail = () => {
   // postの取得ができたら下記を表示する
   return (
     <div>
-      <button type="button" onClick={() => navigate("/study")}>
-        Study一覧に戻る
+      <button type="button" onClick={() => navigate("/works")}>
+        Works一覧に戻る
       </button>
 
-      <h1>Study詳細ページ</h1>
+      <h1>Works詳細ページ</h1>
 
       <p>投稿ID: {id}</p>
       <p>{post.title}</p>
@@ -79,4 +79,4 @@ const StudyDetail = () => {
   );
 };
 
-export default StudyDetail;
+export default WorksDetail;

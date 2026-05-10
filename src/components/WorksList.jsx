@@ -4,13 +4,13 @@ import { db } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
-const StudyList = () => {
+const WorksList = () => {
   // stateを用意
-  const [studyPosts, setStudyPosts] = useState([]);
+  const [worksPosts, setWorksPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getStudyPosts = async () => {
+    const getWorksPosts = async () => {
       const data = await getDocs(collection(db, "posts"));
       const posts = data.docs.map((doc) => ({
         ...doc.data(),
@@ -18,11 +18,11 @@ const StudyList = () => {
         id: doc.id,
       }));
 
-      // categoryが"study"のものだけを抽出してstateにセットする
-      const studyOnlyPosts = posts.filter((post) => post.category === "study");
-      setStudyPosts(studyOnlyPosts);
+      // categoryが"works"のものだけを抽出してstateにセットする
+      const worksOnlyPosts = posts.filter((post) => post.category === "works");
+      setWorksPosts(worksOnlyPosts);
     };
-    getStudyPosts();
+    getWorksPosts();
   }, []);
 
   return (
@@ -31,14 +31,14 @@ const StudyList = () => {
         ホームに戻る
       </button>
 
-      <h1>Study一覧</h1>
-      {studyPosts.map((post) => (
+      <h1>Works一覧</h1>
+      {worksPosts.map((post) => (
         <div key={post.id}>
           <img
             src={post.thumbnailUrl}
             alt={post.title}
             style={{ width: "200px" }}
-            onClick={() => navigate(`/study/${post.id}`)}
+            onClick={() => navigate(`/works/${post.id}`)}
           />
           <p>{post.title}</p>
         </div>
@@ -47,4 +47,4 @@ const StudyList = () => {
   );
 };
 
-export default StudyList;
+export default WorksList;

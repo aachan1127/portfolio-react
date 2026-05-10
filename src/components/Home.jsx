@@ -267,6 +267,10 @@ export const Home = () => {
         </div>
       )}
 
+      <button type="button" onClick={() => navigate("/works")}>
+        Works一覧を見る
+      </button>
+
       {postList.map((post) => {
         return (
           <div className="postContents" key={post.id}>
