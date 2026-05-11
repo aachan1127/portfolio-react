@@ -49,7 +49,7 @@ export const Home = () => {
   const handleDelete = async (post) => {
     // 削除処理
     try {
-      // 🔥 ① Storage の画像削除
+      // ① Storage の画像削除
       if (post.imagePaths && post.imagePaths.length > 0) {
         for (const path of post.imagePaths) {
           const imageRef = ref(storage, path);
@@ -57,10 +57,10 @@ export const Home = () => {
         }
       }
 
-      // 🔥 ② Firestore 削除
+      // ② Firestore 削除
       await deleteDoc(doc(db, "posts", post.id));
 
-      // 🔄 画面更新
+      // 画面更新
       window.location.href = "/";
     } catch (error) {
       console.error("削除エラー:", error);
@@ -109,16 +109,29 @@ export const Home = () => {
   console.log("currentUser", auth.currentUser);
 
   // 画面のどの位置に表示させるかを判断するための値を作る
-  const mainStudyPost = postList.find((post) => post.studyDisplayRank === 1);
-  const subStudyPost = postList.find((post) => post.studyDisplayRank === 2);
+  const mainStudyPost = postList.find(
+    (post) => post.category === "study" && post.studyDisplayRank === 1,
+  );
+  const subStudyPost = postList.find(
+    (post) => post.category === "study" && post.studyDisplayRank === 2,
+  );
   // studyDisplayRankが3以上の投稿だけ取り出して、順位順に並べる（その他の画像を判別するため）
   const otherStudyPosts = postList
-    .filter((post) => post.studyDisplayRank >= 3 && post.studyDisplayRank <= 6)
+    .filter(
+      (post) =>
+        post.category === "study" &&
+        post.studyDisplayRank >= 3 &&
+        post.studyDisplayRank <= 6,
+    )
     .sort((a, b) => a.studyDisplayRank - b.studyDisplayRank);
 
   // worksDisplayRankも同様に、どの位置に表示させるかを判断するための値を作る
-  const mainWorksPost = postList.find((post) => post.worksDisplayRank === 1);
-  const subWorksPost = postList.find((post) => post.worksDisplayRank === 2);
+  const mainWorksPost = postList.find(
+    (post) => post.category === "works" && post.worksDisplayRank === 1,
+  );
+  const subWorksPost = postList.find(
+    (post) => post.category === "works" && post.worksDisplayRank === 2,
+  );
 
   // ↓今はまだworksの投稿が２つだけなのでここは使わない。２つ以上表示させたい時に使う。
   // const otherWorksPosts = postList
@@ -174,28 +187,30 @@ export const Home = () => {
         <div className="studySelectBox">
           <p>表示する投稿を選んでください</p>
 
-          {postList.map((post) => (
-            <button
-              key={post.id}
-              type="button"
-              onClick={() =>
-                handleChangeDisplayPost(
-                  post,
-                  selectingSection.section,
-                  selectingSection.rank,
-                )
-              }
-            >
-              {post.thumbnailUrl && (
-                <img
-                  src={post.thumbnailUrl}
-                  alt={post.title}
-                  className="studySelectImage"
-                />
-              )}
-              <span>{post.title}</span>
-            </button>
-          ))}
+          {postList
+            .filter((post) => post.category === selectingSection.section)
+            .map((post) => (
+              <button
+                key={post.id}
+                type="button"
+                onClick={() =>
+                  handleChangeDisplayPost(
+                    post,
+                    selectingSection.section,
+                    selectingSection.rank,
+                  )
+                }
+              >
+                {post.thumbnailUrl && (
+                  <img
+                    src={post.thumbnailUrl}
+                    alt={post.title}
+                    className="studySelectImage"
+                  />
+                )}
+                <span>{post.title}</span>
+              </button>
+            ))}
 
           <button type="button" onClick={() => setSelectingSection(null)}>
             キャンセル
