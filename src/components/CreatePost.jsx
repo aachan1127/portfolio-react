@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./CreatePost.css";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { auth, db, storage } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -16,6 +22,7 @@ export const CreatePost = ({ isAuth }) => {
   const postsCollectionRef = collection(db, "posts");
   // 未選択でもStudyとして保存できるようにするため、初期値は"study"にしておく
   const [category, setCategory] = useState("study");
+  const [displayType, setDisplayType] = useState("list");
 
   useEffect(() => {
     selectedImagesRef.current = selectedImages;
@@ -139,6 +146,49 @@ export const CreatePost = ({ isAuth }) => {
         imagePaths.push(imageRef.fullPath);
       }
 
+      // メイン・サブ・その他　の表示順をFirestore用の値として保存するための関数
+      const getDisplayRank = () => {
+        if (displayType === "list") {
+          return 7;
+        }
+        return Number(displayType);
+      };
+
+      const displayRank = getDisplayRank();
+
+      if (displayRank >= 1 && displayRank <= 6) {
+        const data = await getDocs(postsCollectionRef);
+        const rankField =
+          category === "study" ? "studyDisplayRank" : "worksDisplayRank";
+        const currentPost = data.docs
+          .map((doc) => ({ ...doc.data(), id: doc.id }))
+          .find(
+            (post) =>
+              post.category === category && post[rankField] === displayRank,
+          );
+        if (currentPost) {
+          const displayLabelMap = {
+            1: "メイン",
+            2: "サブ",
+            3: "その他1番目",
+            4: "その他2番目",
+            5: "その他3番目",
+            6: "その他4番目",
+          };
+
+          const isConfirmed = window.confirm(
+            `${displayLabelMap[displayRank]}の画像を入れ替えますか？`,
+          );
+
+          if (!isConfirmed) {
+            return;
+          }
+          await updateDoc(doc(db, "posts", currentPost.id), {
+            [rankField]: 7,
+          });
+        }
+      }
+
       // Firestore に投稿データを保存
       await addDoc(postsCollectionRef, {
         title: title,
@@ -154,8 +204,8 @@ export const CreatePost = ({ isAuth }) => {
           id: uid,
         },
         category: category,
-        studyDisplayRank: category === "study" ? 7 : null,
-        worksDisplayRank: category === "works" ? 3 : null,
+        studyDisplayRank: category === "study" ? displayRank : null,
+        worksDisplayRank: category === "works" ? displayRank : null,
       });
 
       navigate("/");
@@ -223,6 +273,28 @@ export const CreatePost = ({ isAuth }) => {
           >
             <option value="study">Study</option>
             <option value="works">Works</option>
+          </select>
+        </div>
+
+        <div className="inputPost">
+          <div>表示順</div>
+          <select
+            value={displayType}
+            onChange={(e) => setDisplayType(e.target.value)}
+          >
+            <option value="list">一覧のみ</option>
+            <option value="1">メイン</option>
+            <option value="2">サブ</option>
+
+            {/* カテゴリでstudyを選んだ時だけ「その他」を選択可能にする */}
+            {category === "study" && (
+              <>
+                <option value="3">その他1番目</option>
+                <option value="4">その他2番目</option>
+                <option value="5">その他3番目</option>
+                <option value="6">その他4番目</option>
+              </>
+            )}
           </select>
         </div>
 
