@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./EditPost.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { auth, db, storage } from "../lib/firebase";
 import {
   ref,
@@ -20,6 +26,8 @@ const EditPost = () => {
   const [existingImages, setExistingImages] = useState([]);
   const [originalImages, setOriginalImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [category, setCategory] = useState("study");
+  const [displayType, setDisplayType] = useState("list");
 
   useEffect(() => {
     const getPost = async () => {
@@ -35,6 +43,20 @@ const EditPost = () => {
           // 取得したデータをstateにセットする
           setTitle(data.title);
           setPostText(data.postText);
+          setCategory(data.category || "study");
+
+          // displayRank を取得
+          const displayRank =
+            data.category === "study"
+              ? data.studyDisplayRank
+              : data.worksDisplayRank;
+
+          // select 用の state に変換
+          if (displayRank === 7 || displayRank == null) {
+            setDisplayType("list");
+          } else {
+            setDisplayType(String(displayRank));
+          }
 
           const imageData = (data.imageUrls || []).map((url, index) => ({
             url: url,
@@ -163,7 +185,7 @@ const EditPost = () => {
 
       const docRef = doc(db, "posts", id);
 
-      //    新しい画像をStorageにアップロードしてURLを取得する（CreatePostと同じ）
+      // 新しい画像をStorageにアップロードしてURLを取得する（CreatePostと同じ）
       const newImageUrls = [];
       const newImagePaths = [];
       const newImageFileNames = [];
@@ -188,14 +210,54 @@ const EditPost = () => {
         ...updatedImageFileNames,
         ...newImageFileNames,
       ];
+      // displayType を Firestore 用に変換
+      const displayRank = displayType === "list" ? 7 : Number(displayType);
+
+      // ② 同じ表示位置に既にある投稿を取得して、表示位置を7（一覧のみ）に更新する
+      if (displayRank >= 1 && displayRank <= 6) {
+        const postsCollectionRef = collection(db, "posts");
+        const rankField =
+          category === "study" ? "studyDisplayRank" : "worksDisplayRank";
+        const data = await getDocs(postsCollectionRef);
+        const currentPost = data.docs
+          .map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+          .find(
+            (post) =>
+              post.id !== id &&
+              post.category === category &&
+              post[rankField] === displayRank,
+          );
+        if (currentPost) {
+          const displayLabelMap = {
+            1: "メイン",
+            2: "サブ",
+            3: "その他1番目",
+            4: "その他2番目",
+            5: "その他3番目",
+            6: "その他4番目",
+          };
+          const isConfirmed = window.confirm(
+            `${displayLabelMap[displayRank]}の画像を入れ替えますか？`,
+          );
+          if (!isConfirmed) {
+            return;
+          }
+          await updateDoc(doc(db, "posts", currentPost.id), {
+            [rankField]: 7,
+          });
+        }
+      }
 
       // ③ Firestore更新
       await updateDoc(docRef, {
         title: title,
         postText: postText,
-        // imageUrls: updatedImageUrls,
-        // imagePaths: updatedImagePaths,
-        // imageFileNames: updatedImageFileNames,
+        category: category,
+        studyDisplayRank: category === "study" ? displayRank : 7,
+        worksDisplayRank: category === "works" ? displayRank : 7,
         imageUrls: finalImageUrls,
         imagePaths: finalImagePaths,
         imageFileNames: finalImageFileNames,
@@ -248,6 +310,43 @@ const EditPost = () => {
             value={postText}
             onChange={(e) => setPostText(e.target.value)}
           ></textarea>
+        </div>
+
+        <div className="inputPost">
+          <div>カテゴリ</div>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="study">Study</option>
+            <option value="works">Works</option>
+          </select>
+        </div>
+
+        <div className="inputPost">
+          <div>表示位置</div>
+
+          <select
+            value={displayType}
+            onChange={(e) => setDisplayType(e.target.value)}
+          >
+            <option value="list">一覧のみ</option>
+            {category === "study" ? (
+              <>
+                <option value="1">Study メイン</option>
+                <option value="2">Study サブ</option>
+                <option value="3">Study その他1</option>
+                <option value="4">Study その他2</option>
+                <option value="5">Study その他3</option>
+                <option value="6">Study その他4</option>
+              </>
+            ) : (
+              <>
+                <option value="1">Works メイン</option>
+                <option value="2">Works サブ</option>
+              </>
+            )}
+          </select>
         </div>
 
         <input

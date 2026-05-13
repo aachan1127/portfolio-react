@@ -61,7 +61,7 @@ export const Home = () => {
       await deleteDoc(doc(db, "posts", post.id));
 
       // 画面更新
-      window.location.href = "/";
+      setPostList((prev) => prev.filter((item) => item.id !== post.id));
     } catch (error) {
       console.error("削除エラー:", error);
       alert("削除に失敗しました");
