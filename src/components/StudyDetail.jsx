@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 const StudyDetail = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const backPath = location.state?.from || "/study";
   const [post, setPost] = useState(null);
   const navigate = useNavigate();
 
@@ -44,8 +46,8 @@ const StudyDetail = () => {
   // postの取得ができたら下記を表示する
   return (
     <div>
-      <button type="button" onClick={() => navigate("/study")}>
-        Study一覧に戻る
+      <button type="button" onClick={() => navigate(backPath)}>
+        {backPath === "/posts" ? "全件一覧に戻る" : "Study一覧に戻る"}
       </button>
 
       <h1>Study詳細ページ</h1>

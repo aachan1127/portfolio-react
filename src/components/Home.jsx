@@ -379,6 +379,10 @@ export const Home = () => {
         Works一覧を見る
       </button>
 
+      <button type="button" onClick={() => navigate("/posts")}>
+        全投稿一覧を見る
+      </button>
+
       {postList.map((post) => {
         return (
           <div className="postContents" key={post.id}>
