@@ -114,3 +114,19 @@
     width: 150px;
     height: auto;
 }
+
+.tagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.tagItem {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e8f2fb;
+    color: #2f5f85;
+    font-size: 12px;
+    font-weight: bold;
+}

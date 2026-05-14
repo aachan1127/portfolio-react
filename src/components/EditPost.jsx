@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./EditPost.css";
+import "./PostForm.css";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   collection,
@@ -7,6 +7,7 @@ import {
   getDoc,
   getDocs,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { auth, db, storage } from "../lib/firebase";
 import {
@@ -15,6 +16,7 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
+import { TagCheckboxGroup } from "./TagCheckboxGroup";
 
 const EditPost = () => {
   const { id } = useParams();
@@ -28,6 +30,7 @@ const EditPost = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [category, setCategory] = useState("study");
   const [displayType, setDisplayType] = useState("list");
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     const getPost = async () => {
@@ -44,6 +47,7 @@ const EditPost = () => {
           setTitle(data.title);
           setPostText(data.postText);
           setCategory(data.category || "study");
+          setTags(data.tags || []);
 
           // displayRank を取得
           const displayRank =
@@ -130,7 +134,6 @@ const EditPost = () => {
   // ↓新しい画像を選んだときの処理（CreatePostと同じ）
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files || []);
-
     if (files.length === 0) {
       return;
     }
@@ -145,6 +148,16 @@ const EditPost = () => {
     setSelectedImages((prev) => [...prev, ...newImages]);
 
     e.target.value = "";
+  };
+
+  // タグ変更用の関数
+  const handleTagChange = (e) => {
+    const tag = e.target.value;
+    if (e.target.checked) {
+      setTags((prev) => [...prev, tag]);
+    } else {
+      setTags((prev) => prev.filter((item) => item !== tag));
+    }
   };
 
   // ↓ 更新ボタン押した時の処理
@@ -256,11 +269,13 @@ const EditPost = () => {
         title: title,
         postText: postText,
         category: category,
+        tags: tags,
         studyDisplayRank: category === "study" ? displayRank : 7,
         worksDisplayRank: category === "works" ? displayRank : 7,
         imageUrls: finalImageUrls,
         imagePaths: finalImagePaths,
         imageFileNames: finalImageFileNames,
+        updatedAt: serverTimestamp(),
       });
 
       // ④ Firestore更新後に、不要になった既存画像をStorageから削除
@@ -289,7 +304,7 @@ const EditPost = () => {
   }
 
   return (
-    <div className="editPostPage">
+    <div className="postFormPage">
       <div className="postContainer">
         <h1>記事を編集する</h1>
 
@@ -347,6 +362,15 @@ const EditPost = () => {
               </>
             )}
           </select>
+        </div>
+
+        <div className="inputPost">
+          <div>使用技術タグ</div>
+
+          <div className="tagCheckboxGroup">
+            {/* 重複しているタグUI自体をコンポーネント化　TagCheckboxGroup.jsx */}
+            <TagCheckboxGroup tags={tags} onChange={handleTagChange} />
+          </div>
         </div>
 
         <input

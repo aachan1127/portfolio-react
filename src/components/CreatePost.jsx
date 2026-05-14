@@ -1,15 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./CreatePost.css";
+import "./PostForm.css";
 import {
   collection,
   addDoc,
   getDocs,
   updateDoc,
   doc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { auth, db, storage } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { TagCheckboxGroup } from "./TagCheckboxGroup";
 
 export const CreatePost = ({ isAuth }) => {
   const [title, setTitle] = useState("");
@@ -23,6 +25,7 @@ export const CreatePost = ({ isAuth }) => {
   // 未選択でもStudyとして保存できるようにするため、初期値は"study"にしておく
   const [category, setCategory] = useState("study");
   const [displayType, setDisplayType] = useState("list");
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     selectedImagesRef.current = selectedImages;
@@ -75,7 +78,6 @@ export const CreatePost = ({ isAuth }) => {
   const moveImageDown = (index) => {
     setSelectedImages((prev) => {
       if (index === prev.length - 1) return prev;
-
       const newImages = [...prev];
       [newImages[index], newImages[index + 1]] = [
         newImages[index + 1],
@@ -83,6 +85,16 @@ export const CreatePost = ({ isAuth }) => {
       ];
       return newImages;
     });
+  };
+
+  // タグの処理の関数
+  const handleTagChange = (e) => {
+    const tag = e.target.value;
+    if (e.target.checked) {
+      setTags((prev) => [...prev, tag]);
+    } else {
+      setTags((prev) => prev.filter((item) => item !== tag));
+    }
   };
 
   const createPost = async () => {
@@ -204,8 +216,12 @@ export const CreatePost = ({ isAuth }) => {
           id: uid,
         },
         category: category,
-        studyDisplayRank: category === "study" ? displayRank : null,
-        worksDisplayRank: category === "works" ? displayRank : null,
+        tags: tags,
+        // 一覧のみに表示させるのはnull ではなく 7 に統一
+        studyDisplayRank: category === "study" ? displayRank : 7,
+        worksDisplayRank: category === "works" ? displayRank : 7,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       });
 
       navigate("/");
@@ -234,7 +250,7 @@ export const CreatePost = ({ isAuth }) => {
   }, []);
 
   return (
-    <div className="createPostPage">
+    <div className="postFormPage">
       <div className="postContainer">
         <h1>記事を投稿する</h1>
 
@@ -296,6 +312,15 @@ export const CreatePost = ({ isAuth }) => {
               </>
             )}
           </select>
+        </div>
+
+        <div className="inputPost">
+          <div>使用技術タグ</div>
+
+          <div className="tagCheckboxGroup">
+            {/* 重複しているタグUI自体をコンポーネント化　TagCheckboxGroup.jsx */}
+            <TagCheckboxGroup tags={tags} onChange={handleTagChange} />
+          </div>
         </div>
 
         <input
