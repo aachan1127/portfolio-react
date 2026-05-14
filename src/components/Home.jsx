@@ -12,6 +12,7 @@ import { ref, deleteObject } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { getYoutubeEmbedUrl } from "./utils/youtube";
 import "./Home.css";
+import { TagList } from "./TagList";
 
 export const Home = () => {
   // stateを用意
@@ -143,19 +144,19 @@ export const Home = () => {
   //   .filter((post) => post.worksDisplayRank >= 3)
   //   .sort((a, b) => a.worksDisplayRank - b.worksDisplayRank);
 
-  // タグを表示するための関数
-  const renderTags = (tags) => {
-    if (!tags || tags.length === 0) return null;
-    return (
-      <div className="tagList">
-        {tags.map((tag) => (
-          <span key={tag} className="tagItem">
-            {tag}
-          </span>
-        ))}
-      </div>
-    );
-  };
+  // タグを表示するための関数は TagList.jsxにコンポーネント化したのでここでは使わない
+  // const renderTags = (tags) => {
+  //   if (!tags || tags.length === 0) return null;
+  //   return (
+  //     <div className="tagList">
+  //       {tags.map((tag) => (
+  //         <span key={tag} className="tagItem">
+  //           {tag}
+  //         </span>
+  //       ))}
+  //     </div>
+  //   );
+  // };
 
   // JSXで表示する
   return (
@@ -174,7 +175,7 @@ export const Home = () => {
             />
 
             <p>{mainStudyPost.title}</p>
-            {renderTags(mainStudyPost.tags)}
+            <TagList tags={mainStudyPost.tags} />
           </>
         ) : (
           <p>メイン未設定</p>
@@ -205,7 +206,7 @@ export const Home = () => {
             />
 
             <p>{subStudyPost.title}</p>
-            {renderTags(subStudyPost.tags)}
+            <TagList tags={subStudyPost.tags} />
           </>
         ) : (
           <p>サブ未設定</p>
@@ -323,7 +324,7 @@ export const Home = () => {
             />
 
             <p>{mainWorksPost.title}</p>
-            {renderTags(mainWorksPost.tags)}
+            <TagList tags={mainWorksPost.tags} />
           </>
         ) : (
           <p>Worksメイン未設定</p>
@@ -354,7 +355,7 @@ export const Home = () => {
             />
 
             <p>{subWorksPost.title}</p>
-            {renderTags(subWorksPost.tags)}
+            <TagList tags={subWorksPost.tags} />
           </>
         ) : (
           <p>Worksサブ未設定</p>
@@ -387,7 +388,7 @@ export const Home = () => {
 
             <div className="postTextContainer">{post.postText}</div>
             {/* タグ表示 */}
-            {renderTags(post.tags)}
+            <TagList tags={post.tags} />
 
             {/* 画像表示 */}
             {post.imageUrls?.length > 0 ? (
