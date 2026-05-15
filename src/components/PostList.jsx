@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { db } from "../lib/firebase";
 import { TECH_TAGS } from "./utils/tags";
-import { TagList } from "./TagList";
+import { PostCard } from "./PostCard";
 import "./Home.css";
+import { storage } from "../lib/firebase";
+import { ref, deleteObject } from "firebase/storage";
 
 export const PostList = ({ category, title }) => {
   const [posts, setPosts] = useState([]);
@@ -31,12 +33,40 @@ export const PostList = ({ category, title }) => {
     getPosts();
   }, [category]);
 
+  const handleDelete = async (post) => {
+    const isConfirmed = window.confirm("この投稿を削除しますか？");
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    // 削除処理
+    try {
+      // ① Storage の画像削除
+      if (post.imagePaths && post.imagePaths.length > 0) {
+        for (const path of post.imagePaths) {
+          const imageRef = ref(storage, path);
+          await deleteObject(imageRef);
+        }
+      }
+
+      // ② Firestore 削除
+      await deleteDoc(doc(db, "posts", post.id));
+
+      // 画面更新
+      setPosts((prev) => prev.filter((item) => item.id !== post.id));
+    } catch (error) {
+      console.error("削除エラー:", error);
+      alert("削除に失敗しました");
+    }
+  };
+
   const filteredPosts = posts.filter((post) =>
     selectedTag ? post.tags?.includes(selectedTag) : true,
   );
 
   return (
-    <div>
+    <div className="homePage">
       <button type="button" onClick={() => navigate("/")}>
         ホームに戻る
       </button>
@@ -56,28 +86,26 @@ export const PostList = ({ category, title }) => {
       </div>
 
       {filteredPosts.map((post) => (
-        <div key={post.id}>
-          <img
-            src={post.thumbnailUrl}
-            alt={post.title}
-            style={{ width: "200px" }}
-            onClick={() =>
-              navigate(
-                post.category === "study"
-                  ? `/study/${post.id}`
-                  : `/works/${post.id}`,
-                {
-                  state: {
-                    from: category === "all" ? "/posts" : `/${post.category}`,
-                  },
+        // PostCardコンポーネントをクリックしたときの挙動
+        <PostCard
+          key={post.id}
+          post={post}
+          onClick={() =>
+            navigate(
+              post.category === "study"
+                ? `/study/${post.id}`
+                : `/works/${post.id}`,
+              {
+                state: {
+                  from: category === "all" ? "/posts" : `/${post.category}`,
                 },
-              )
-            }
-          />
-
-          <p>{post.title}</p>
-          <TagList tags={post.tags} />
-        </div>
+              },
+            )
+          }
+          // 削除・編集ボタンの挙動
+          onDelete={handleDelete}
+          onEdit={(post) => navigate(`/editpost/${post.id}`)}
+        />
       ))}
     </div>
   );
