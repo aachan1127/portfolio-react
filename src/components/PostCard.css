@@ -9,6 +9,13 @@
   border-radius: 10px;
   box-sizing: border-box;
   overflow: visible;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.postContents:hover {
+  transform: translateY(-4px);
+  box-shadow: 4px 12px 14px -4px #777777;
 }
 
 .postHeader h1 {

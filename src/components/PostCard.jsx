@@ -8,7 +8,7 @@ import "./PostCard.css";
 // PostCard.jsx は削除・編集の具体的な処理を持たず、親から受け取った関数を実行する。
 export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
   return (
-    <div className="postContents">
+    <div className="postContents" onClick={onClick}>
       <div className="postHeader">
         <h1>{post.title}</h1>
       </div>
@@ -26,7 +26,6 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
                 src={url}
                 alt={`${post.title} ${index + 1}`}
                 className="postImage"
-                onClick={onClick}
               />
             </div>
           ))}
@@ -38,8 +37,6 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
               src={post.imageUrl}
               alt={post.title}
               className="postImage"
-              // PostList.jsxのPostCardコンポーネントをクリックしたときの挙動で、onClick={onClick}が渡されている。
-              onClick={onClick}
             />
           </div>
         )
@@ -62,7 +59,11 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
       <div className="nameAndDeleteButton">
         <h3>@{post.author?.name}</h3>
         {post.author?.id === auth.currentUser?.uid && onDelete && (
-          <button type="button" onClick={() => onDelete(post)}>
+          <button type="button" onClick={(event) => {
+            // 削除ボタンをクリックしたときに、onClick（投稿の詳細ページへの遷移）も発火してしまうのを防ぐために、event.stopPropagation() で制御
+            event.stopPropagation();
+            onDelete(post);
+          }}>
             削除
           </button>
         )}
@@ -71,7 +72,11 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
       {post.author?.id === auth.currentUser?.uid && onEdit && (
         <div className="EditButton">
           {/* ナビゲーションは PostList.jsx から渡された onEdit を実行するので、PostCard.jsx には navigate を書かない */}
-          <button type="button" onClick={() => onEdit(post)}>
+          <button type="button" onClick={(event) => {
+            // 編集ボタンをクリックしたときに、onClick（投稿の詳細ページへの遷移）も発火してしまうのを防ぐために、event.stopPropagation() で制御
+            event.stopPropagation();
+            onEdit(post);
+          }}>
             編集
           </button>
         </div>
