@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { TagList } from "./TagList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGithub,
+  faXTwitter,
+  faFigma,
+} from "@fortawesome/free-brands-svg-icons";
 
 export const Home = () => {
   // stateを用意
@@ -42,8 +43,6 @@ export const Home = () => {
 
   //   return `https://www.youtube.com/embed/${videoId}`;
   // };
-
-
 
   const handleChangeDisplayPost = async (newPost, section, rank) => {
     const rankField =
@@ -137,6 +136,48 @@ export const Home = () => {
   // JSXで表示する
   return (
     <div className="homePage">
+      <section className="socialLinksSection">
+        <h2>Links</h2>
+
+        <div className="socialLinks">
+          <a
+            href="https://github.com/aachan1127"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faGithub}
+              className="socialIcon"
+              aria-label="GitHubを新しいタブで開く"
+            />
+          </a>
+
+          <a
+            href="https://x.com/aachan_y27"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faXTwitter}
+              className="socialIcon"
+              aria-label="Xを新しいタブで開く"
+            />
+          </a>
+
+          <a
+            href="https://www.figma.com/@ac703618_65d6_4"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon
+              icon={faFigma}
+              className="socialIcon"
+              aria-label="Figmaを新しいタブで開く"
+            />
+          </a>
+        </div>
+      </section>
+
       {/* ----- Study ----- */}
       <h2>Study</h2>
 
