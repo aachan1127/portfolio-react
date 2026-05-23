@@ -81,3 +81,46 @@
   transform: translateY(-3px);
   opacity: 0.85;
 }
+
+.heroSection {
+  width: 100%;
+  max-width: 1000px;
+  min-height: 700px;
+  position: relative;
+  padding: 80px 20px;
+  box-sizing: border-box;
+}
+
+.heroImageArea {
+  width: 58%;
+}
+
+.heroProfileImage {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.heroMessageArea {
+  position: absolute;
+  right: 0;
+  bottom: 40px;
+  width: 58%;
+}
+
+.heroFlowerFrame {
+  width: 100%;
+  display: block;
+}
+
+.heroMessage {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  text-align: center;
+  font-size: 24px;
+  line-height: 1.7;
+  color: #111;
+}

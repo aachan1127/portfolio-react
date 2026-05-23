@@ -136,6 +136,51 @@ export const Home = () => {
   // JSXで表示する
   return (
     <div className="homePage">
+      <a href="#about">About</a>
+      <a href="#study">Study</a>
+      <a href="#works">Works</a>
+      <a href="#skills">Skills</a>
+
+      <section id="hero" className="heroSection">
+        <div className="heroImageArea">
+          <img
+            src="/akane_photo.JPG"
+            alt="山本明音のプロフィール写真"
+            className="heroProfileImage"
+          />
+        </div>
+
+        <div className="heroMessageArea">
+          <img
+            src="/flower_frame.png"
+            alt=""
+            aria-hidden="true"
+            className="heroFlowerFrame"
+          />
+
+          <p className="heroMessage">
+            ユーザーの心に寄り添える
+            <br />
+            エンジニア兼デザイナーを
+            <br />
+            目指しています
+          </p>
+        </div>
+      </section>
+
+      <section id="about" className="aboutSection">
+        <h2>About</h2>
+        <p>
+          2024年に半年間ジーズアカデミー（現G’s）で未経験からプログラミングを学ぶ。
+          <br />
+          2025年に学んだ知識を活かし、２件の案件を業務委託で行う。
+          <br />
+          2026年6月、通っていたスクールで授業のサポート（チューター）を始める。
+          <br />
+          現在、チューターの傍ら勉強を続け、求職中。
+        </p>
+      </section>
+
       <section className="socialLinksSection">
         <h2>Links</h2>
 
@@ -179,226 +224,233 @@ export const Home = () => {
       </section>
 
       {/* ----- Study ----- */}
-      <h2>Study</h2>
+      <section id="study">
+        <h2>Study</h2>
+        {/* メイン枠 */}
+        <div className="studyMain">
+          {mainStudyPost ? (
+            <>
+              <img
+                src={mainStudyPost.thumbnailUrl}
+                alt={mainStudyPost.title}
+                className="studyMainImage"
+              />
 
-      {/* メイン枠 */}
-      <div className="studyMain">
-        {mainStudyPost ? (
-          <>
-            <img
-              src={mainStudyPost.thumbnailUrl}
-              alt={mainStudyPost.title}
-              className="studyMainImage"
-            />
+              <p>{mainStudyPost.title}</p>
+              <TagList tags={mainStudyPost.tags} />
+            </>
+          ) : (
+            <p>メイン未設定</p>
+          )}
 
-            <p>{mainStudyPost.title}</p>
-            <TagList tags={mainStudyPost.tags} />
-          </>
-        ) : (
-          <p>メイン未設定</p>
-        )}
-
-        {auth.currentUser && (
-          <button
-            onClick={() =>
-              setSelectingSection({
-                section: "study",
-                rank: 1,
-              })
-            }
-          >
-            メイン枠を変更
-          </button>
-        )}
-      </div>
-
-      {/* サブ枠 */}
-      <div className="studySub">
-        {subStudyPost ? (
-          <>
-            <img
-              src={subStudyPost.thumbnailUrl}
-              alt={subStudyPost.title}
-              className="studySubImage"
-            />
-
-            <p>{subStudyPost.title}</p>
-            <TagList tags={subStudyPost.tags} />
-          </>
-        ) : (
-          <p>サブ未設定</p>
-        )}
-
-        {auth.currentUser && (
-          <button
-            onClick={() =>
-              setSelectingSection({
-                section: "study",
-
-                rank: 2,
-              })
-            }
-          >
-            サブ枠を変更
-          </button>
-        )}
-      </div>
-
-      {/* ---- モーダル表示 ---- */}
-      {selectingSection && (
-        <div className="studySelectBox">
-          <p>表示する投稿を選んでください</p>
-
-          {postList
-            .filter((post) => post.category === selectingSection.section)
-            .map((post) => (
-              <button
-                key={post.id}
-                type="button"
-                onClick={() =>
-                  handleChangeDisplayPost(
-                    post,
-                    selectingSection.section,
-                    selectingSection.rank,
-                  )
-                }
-              >
-                {post.thumbnailUrl && (
-                  <img
-                    src={post.thumbnailUrl}
-                    alt={post.title}
-                    className="studySelectImage"
-                  />
-                )}
-                <span>{post.title}</span>
-              </button>
-            ))}
-
-          <button type="button" onClick={() => setSelectingSection(null)}>
-            キャンセル
-          </button>
+          {auth.currentUser && (
+            <button
+              onClick={() =>
+                setSelectingSection({
+                  section: "study",
+                  rank: 1,
+                })
+              }
+            >
+              メイン枠を変更
+            </button>
+          )}
         </div>
-      )}
 
-      {/* その他枠 */}
-      <div className="studyOthers">
-        <p>その他</p>
+        {/* サブ枠 */}
+        <div className="studySub">
+          {subStudyPost ? (
+            <>
+              <img
+                src={subStudyPost.thumbnailUrl}
+                alt={subStudyPost.title}
+                className="studySubImage"
+              />
 
-        {studyOtherRanks.map((rank) => {
-          const post = otherStudyPosts.find(
-            (post) => post.studyDisplayRank === rank,
-          );
+              <p>{subStudyPost.title}</p>
+              <TagList tags={subStudyPost.tags} />
+            </>
+          ) : (
+            <p>サブ未設定</p>
+          )}
 
-          return (
-            <div key={rank} className="studyOtherItem">
-              <p>その他{rank - 2}番目</p>
+          {auth.currentUser && (
+            <button
+              onClick={() =>
+                setSelectingSection({
+                  section: "study",
 
-              {post ? (
-                <>
-                  <img
-                    src={post.thumbnailUrl}
-                    alt={post.title}
-                    className="studyOtherImage"
-                  />
-                  <p>{post.title}</p>
-                </>
-              ) : (
-                <p>未設定</p>
-              )}
+                  rank: 2,
+                })
+              }
+            >
+              サブ枠を変更
+            </button>
+          )}
+        </div>
 
-              {auth.currentUser && (
+        {/* ---- モーダル表示 ---- */}
+        {selectingSection && (
+          <div className="studySelectBox">
+            <p>表示する投稿を選んでください</p>
+
+            {postList
+              .filter((post) => post.category === selectingSection.section)
+              .map((post) => (
                 <button
+                  key={post.id}
+                  type="button"
                   onClick={() =>
-                    setSelectingSection({
-                      section: "study",
-                      rank: rank,
-                    })
+                    handleChangeDisplayPost(
+                      post,
+                      selectingSection.section,
+                      selectingSection.rank,
+                    )
                   }
                 >
-                  この枠を変更
+                  {post.thumbnailUrl && (
+                    <img
+                      src={post.thumbnailUrl}
+                      alt={post.title}
+                      className="studySelectImage"
+                    />
+                  )}
+                  <span>{post.title}</span>
                 </button>
-              )}
-            </div>
-          );
-        })}
-      </div>
+              ))}
 
-      <button type="button" onClick={() => navigate("/study")}>
-        Study一覧を見る
-      </button>
+            <button type="button" onClick={() => setSelectingSection(null)}>
+              キャンセル
+            </button>
+          </div>
+        )}
+
+        {/* その他枠 */}
+        <div className="studyOthers">
+          <p>その他</p>
+
+          {studyOtherRanks.map((rank) => {
+            const post = otherStudyPosts.find(
+              (post) => post.studyDisplayRank === rank,
+            );
+
+            return (
+              <div key={rank} className="studyOtherItem">
+                <p>その他{rank - 2}番目</p>
+
+                {post ? (
+                  <>
+                    <img
+                      src={post.thumbnailUrl}
+                      alt={post.title}
+                      className="studyOtherImage"
+                    />
+                    <p>{post.title}</p>
+                  </>
+                ) : (
+                  <p>未設定</p>
+                )}
+
+                {auth.currentUser && (
+                  <button
+                    onClick={() =>
+                      setSelectingSection({
+                        section: "study",
+                        rank: rank,
+                      })
+                    }
+                  >
+                    この枠を変更
+                  </button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <button type="button" onClick={() => navigate("/study")}>
+          Study一覧を見る
+        </button>
+      </section>
 
       {/* ----- Works ----- */}
-      <h2>Works</h2>
+      <section id="works">
+        <h2>Works</h2>
 
-      {/* Worksメイン枠 */}
-      <div className="worksMain">
-        {mainWorksPost ? (
-          <>
-            <img
-              src={mainWorksPost.thumbnailUrl}
-              alt={mainWorksPost.title}
-              className="worksMainImage"
-            />
+        {/* Worksメイン枠 */}
+        <div className="worksMain">
+          {mainWorksPost ? (
+            <>
+              <img
+                src={mainWorksPost.thumbnailUrl}
+                alt={mainWorksPost.title}
+                className="worksMainImage"
+              />
 
-            <p>{mainWorksPost.title}</p>
-            <TagList tags={mainWorksPost.tags} />
-          </>
-        ) : (
-          <p>Worksメイン未設定</p>
-        )}
+              <p>{mainWorksPost.title}</p>
+              <TagList tags={mainWorksPost.tags} />
+            </>
+          ) : (
+            <p>Worksメイン未設定</p>
+          )}
 
-        {auth.currentUser && (
-          <button
-            onClick={() =>
-              setSelectingSection({
-                section: "works",
-                rank: 1,
-              })
-            }
-          >
-            Worksメイン枠を変更
-          </button>
-        )}
-      </div>
+          {auth.currentUser && (
+            <button
+              onClick={() =>
+                setSelectingSection({
+                  section: "works",
+                  rank: 1,
+                })
+              }
+            >
+              Worksメイン枠を変更
+            </button>
+          )}
+        </div>
 
-      {/* Works サブ枠 */}
-      <div className="worksSub">
-        {subWorksPost ? (
-          <>
-            <img
-              src={subWorksPost.thumbnailUrl}
-              alt={subWorksPost.title}
-              className="worksSubImage"
-            />
+        {/* Works サブ枠 */}
+        <div className="worksSub">
+          {subWorksPost ? (
+            <>
+              <img
+                src={subWorksPost.thumbnailUrl}
+                alt={subWorksPost.title}
+                className="worksSubImage"
+              />
 
-            <p>{subWorksPost.title}</p>
-            <TagList tags={subWorksPost.tags} />
-          </>
-        ) : (
-          <p>Worksサブ未設定</p>
-        )}
+              <p>{subWorksPost.title}</p>
+              <TagList tags={subWorksPost.tags} />
+            </>
+          ) : (
+            <p>Worksサブ未設定</p>
+          )}
 
-        {auth.currentUser && (
-          <button
-            onClick={() =>
-              setSelectingSection({
-                section: "works",
-                rank: 2,
-              })
-            }
-          >
-            Worksサブ枠を変更
-          </button>
-        )}
-      </div>
+          {auth.currentUser && (
+            <button
+              onClick={() =>
+                setSelectingSection({
+                  section: "works",
+                  rank: 2,
+                })
+              }
+            >
+              Worksサブ枠を変更
+            </button>
+          )}
+        </div>
 
-      <button type="button" onClick={() => navigate("/works")}>
-        Works一覧を見る
-      </button>
+        <button type="button" onClick={() => navigate("/works")}>
+          Works一覧を見る
+        </button>
 
-      <button type="button" onClick={() => navigate("/posts")}>
-        全投稿一覧を見る
-      </button>
+        <button type="button" onClick={() => navigate("/posts")}>
+          全投稿一覧を見る
+        </button>
+      </section>
+
+      <section id="skills">
+        <h2>Skills</h2>
+      </section>
     </div>
   );
 };
