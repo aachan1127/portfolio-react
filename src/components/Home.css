@@ -52,36 +52,6 @@
     font-weight: bold;
 }
 
-.socialLinksSection {
-  width: 100%;
-  max-width: 600px;
-  margin-top: 40px;
-  text-align: center;
-}
-
-.socialLinks {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
-
-.socialLinks a {
-  border-radius: 999px;
-  color: black;
-  text-decoration: none;
-}
-
-.socialIcon {
-  font-size: 40px;
-}
-
-.socialLinks a:hover {
-  transform: translateY(-3px);
-  opacity: 0.85;
-}
-
 .heroSection {
   width: 100%;
   max-width: 1000px;
@@ -123,4 +93,95 @@
   font-size: 24px;
   line-height: 1.7;
   color: #111;
+}
+
+.aboutProfileImage {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.aboutSection {
+  width: 100%;
+  max-width: 1000px;
+  padding: 80px 20px;
+  box-sizing: border-box;
+}
+
+.aboutTitle {
+  font-size: 56px;
+  font-weight: 400;
+  margin-bottom: 70px;
+}
+
+.aboutText {
+  max-width: 760px;
+  margin: 0 auto 80px;
+  font-size: 20px;
+  line-height: 1.9;
+}
+
+.aboutText p {
+  margin-bottom: 18px;
+}
+
+.aboutProfile {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.aboutImageArea {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.aboutProfileImage {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.aboutProfileText {
+  flex: 1;
+}
+
+.aboutProfileText h3 {
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 36px;
+}
+
+.aboutProfileText h3 span {
+  font-size: 20px;
+  margin-left: 16px;
+}
+
+.aboutProfileText p {
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.socialLinks {
+  display: flex;
+  justify-content: flex-end;
+  gap: 32px;
+  margin-top: 50px;
+}
+
+.socialLinks a {
+  border-radius: 999px;
+  color: black;
+  text-decoration: none;
+}
+
+.socialLinks a:hover {
+  transform: translateY(-3px);
+  opacity: 0.85;
+}
+
+.socialIcon {
+  font-size: 40px;
 }

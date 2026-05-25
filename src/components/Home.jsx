@@ -161,65 +161,79 @@ export const Home = () => {
           <p className="heroMessage">
             ユーザーの心に寄り添える
             <br />
-            エンジニア兼デザイナーを
-            <br />
-            目指しています
+            エンジニアを目指しています
           </p>
         </div>
       </section>
 
       <section id="about" className="aboutSection">
-        <h2>About</h2>
-        <p>
-          2024年に半年間ジーズアカデミー（現G’s）で未経験からプログラミングを学ぶ。
-          <br />
-          2025年に学んだ知識を活かし、２件の案件を業務委託で行う。
-          <br />
-          2026年6月、通っていたスクールで授業のサポート（チューター）を始める。
-          <br />
-          現在、チューターの傍ら勉強を続け、求職中。
-        </p>
-      </section>
+        <h2 className="aboutTitle">About</h2>
+        <div className="aboutText">
+          <p>
+            2024年に半年間ジーズアカデミー（現G’s）で未経験からプログラミングを学ぶ。
+          </p>
+          <p>2025年に学んだ知識を活かし、２件の案件を業務委託で行う。</p>
+          <p>
+            2026年6月、通っていたスクールで授業のサポート（チューター）を始める。
+          </p>
+          <p>現在、チューターの傍ら勉強を続け、求職中。</p>
+        </div>
 
-      <section className="socialLinksSection">
-        <h2>Links</h2>
-
-        <div className="socialLinks">
-          <a
-            href="https://github.com/aachan1127"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FontAwesomeIcon
-              icon={faGithub}
-              className="socialIcon"
-              aria-label="GitHubを新しいタブで開く"
+        <div className="aboutProfile">
+          <div className="aboutImageArea">
+            <img
+              src="/akane_photo_face.png"
+              alt="山本明音の顔写真"
+              className="aboutProfileImage"
             />
-          </a>
+          </div>
 
-          <a
-            href="https://x.com/aachan_y27"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FontAwesomeIcon
-              icon={faXTwitter}
-              className="socialIcon"
-              aria-label="Xを新しいタブで開く"
-            />
-          </a>
+          <div className="aboutProfileText">
+            <h3>
+              山本　明音
+              <span>（やまもと　あかね）</span>
+            </h3>
+            <p>とくに興味のある分野</p>
+            <p>フロントエンド / デザイン / アクセシビリティ / UIUX</p>
 
-          <a
-            href="https://www.figma.com/@ac703618_65d6_4"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FontAwesomeIcon
-              icon={faFigma}
-              className="socialIcon"
-              aria-label="Figmaを新しいタブで開く"
-            />
-          </a>
+            <div className="socialLinks">
+              <a
+                href="https://github.com/aachan1127"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faGithub}
+                  className="socialIcon"
+                  aria-label="GitHubを新しいタブで開く"
+                />
+              </a>
+
+              <a
+                href="https://x.com/aachan_y27"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faXTwitter}
+                  className="socialIcon"
+                  aria-label="Xを新しいタブで開く"
+                />
+              </a>
+
+              <a
+                href="https://www.figma.com/@ac703618_65d6_4"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FontAwesomeIcon
+                  icon={faFigma}
+                  className="socialIcon"
+                  aria-label="Figmaを新しいタブで開く"
+                />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
