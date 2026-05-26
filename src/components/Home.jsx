@@ -238,148 +238,153 @@ export const Home = () => {
       </section>
 
       {/* ----- Study ----- */}
-      <section id="study">
-        <h2>Study</h2>
+      <section id="study" className="studySection">
+        <h2 className="studyTitle">Study</h2>
         {/* メイン枠 */}
-        <div className="studyMain">
-          {mainStudyPost ? (
-            <>
-              <img
-                src={mainStudyPost.thumbnailUrl}
-                alt={mainStudyPost.title}
-                className="studyMainImage"
-              />
+        <div className="studyContent">
+          <div className="studyMain">
+            {mainStudyPost ? (
+              <>
+                <img
+                  src={mainStudyPost.thumbnailUrl}
+                  alt={mainStudyPost.title}
+                  className="studyMainImage"
+                />
 
-              <p>{mainStudyPost.title}</p>
-              <TagList tags={mainStudyPost.tags} />
-            </>
-          ) : (
-            <p>メイン未設定</p>
-          )}
+                <p className="studyPostTitle">{mainStudyPost.title}</p>
+                <TagList tags={mainStudyPost.tags} />
+              </>
+            ) : (
+              <p>メイン未設定</p>
+            )}
 
-          {auth.currentUser && (
-            <button
-              onClick={() =>
-                setSelectingSection({
-                  section: "study",
-                  rank: 1,
-                })
-              }
-            >
-              メイン枠を変更
-            </button>
-          )}
-        </div>
+            {auth.currentUser && (
+              <button
+                onClick={() =>
+                  setSelectingSection({
+                    section: "study",
+                    rank: 1,
+                  })
+                }
+              >
+                メイン枠を変更
+              </button>
+            )}
+          </div>
 
-        {/* サブ枠 */}
-        <div className="studySub">
-          {subStudyPost ? (
-            <>
-              <img
-                src={subStudyPost.thumbnailUrl}
-                alt={subStudyPost.title}
-                className="studySubImage"
-              />
+          {/* サブ枠 */}
+          <div className="studyBottom">
+            <div className="studySub">
+              {subStudyPost ? (
+                <>
+                  <img
+                    src={subStudyPost.thumbnailUrl}
+                    alt={subStudyPost.title}
+                    className="studySubImage"
+                  />
 
-              <p>{subStudyPost.title}</p>
-              <TagList tags={subStudyPost.tags} />
-            </>
-          ) : (
-            <p>サブ未設定</p>
-          )}
+                  <p className="studyPostTitle">{subStudyPost.title}</p>
+                  <TagList tags={subStudyPost.tags} />
+                </>
+              ) : (
+                <p>サブ未設定</p>
+              )}
 
-          {auth.currentUser && (
-            <button
-              onClick={() =>
-                setSelectingSection({
-                  section: "study",
-
-                  rank: 2,
-                })
-              }
-            >
-              サブ枠を変更
-            </button>
-          )}
-        </div>
-
-        {/* ---- モーダル表示 ---- */}
-        {selectingSection && (
-          <div className="studySelectBox">
-            <p>表示する投稿を選んでください</p>
-
-            {postList
-              .filter((post) => post.category === selectingSection.section)
-              .map((post) => (
+              {auth.currentUser && (
                 <button
-                  key={post.id}
-                  type="button"
                   onClick={() =>
-                    handleChangeDisplayPost(
-                      post,
-                      selectingSection.section,
-                      selectingSection.rank,
-                    )
+                    setSelectingSection({
+                      section: "study",
+                      rank: 2,
+                    })
                   }
                 >
-                  {post.thumbnailUrl && (
-                    <img
-                      src={post.thumbnailUrl}
-                      alt={post.title}
-                      className="studySelectImage"
-                    />
-                  )}
-                  <span>{post.title}</span>
+                  サブ枠を変更
                 </button>
-              ))}
+              )}
+            </div>
 
-            <button type="button" onClick={() => setSelectingSection(null)}>
-              キャンセル
-            </button>
+            {/* その他枠 */}
+            <div className="studyOthers">
+              <p className="studyOthersTitle">その他（一覧）</p>
+
+              <div className="studyOthersGrid">
+                {studyOtherRanks.map((rank) => {
+                  const post = otherStudyPosts.find(
+                    (post) => post.studyDisplayRank === rank,
+                  );
+
+                  return (
+                    <div key={rank} className="studyOtherItem">
+                      {/* <p>その他{rank - 2}番目</p> */}
+
+                      {post ? (
+                        <>
+                          <img
+                            src={post.thumbnailUrl}
+                            alt={post.title}
+                            className="studyOtherImage"
+                          />
+                          <p>{post.title}</p>
+                        </>
+                      ) : (
+                        <div className="studyOtherPlaceholder">未設定</div>
+                      )}
+
+                      {auth.currentUser && (
+                        <button
+                          onClick={() =>
+                            setSelectingSection({
+                              section: "study",
+                              rank: rank,
+                            })
+                          }
+                        >
+                          この枠を変更
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        )}
 
-        {/* その他枠 */}
-        <div className="studyOthers">
-          <p>その他</p>
+          {/* ---- モーダル表示 ---- */}
+          {selectingSection && (
+            <div className="studySelectBox">
+              <p>表示する投稿を選んでください</p>
 
-          {studyOtherRanks.map((rank) => {
-            const post = otherStudyPosts.find(
-              (post) => post.studyDisplayRank === rank,
-            );
-
-            return (
-              <div key={rank} className="studyOtherItem">
-                <p>その他{rank - 2}番目</p>
-
-                {post ? (
-                  <>
-                    <img
-                      src={post.thumbnailUrl}
-                      alt={post.title}
-                      className="studyOtherImage"
-                    />
-                    <p>{post.title}</p>
-                  </>
-                ) : (
-                  <p>未設定</p>
-                )}
-
-                {auth.currentUser && (
+              {postList
+                .filter((post) => post.category === selectingSection.section)
+                .map((post) => (
                   <button
+                    key={post.id}
+                    type="button"
                     onClick={() =>
-                      setSelectingSection({
-                        section: "study",
-                        rank: rank,
-                      })
+                      handleChangeDisplayPost(
+                        post,
+                        selectingSection.section,
+                        selectingSection.rank,
+                      )
                     }
                   >
-                    この枠を変更
+                    {post.thumbnailUrl && (
+                      <img
+                        src={post.thumbnailUrl}
+                        alt={post.title}
+                        className="studySelectImage"
+                      />
+                    )}
+                    <span>{post.title}</span>
                   </button>
-                )}
-              </div>
-            );
-          })}
+                ))}
+
+              <button type="button" onClick={() => setSelectingSection(null)}>
+                キャンセル
+              </button>
+            </div>
+          )}
         </div>
 
         <button type="button" onClick={() => navigate("/study")}>
