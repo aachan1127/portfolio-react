@@ -8,6 +8,15 @@
     box-sizing: border-box;
 }
 
+/* ---------- 各セクション共通 ---------- */
+.sectionButtonArea {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 48px;
+  flex-wrap: wrap;
+}
+
 /* ---------- Hero セクション ---------- */
 .heroSection {
   width: 100%;
@@ -275,3 +284,38 @@
 }
 
 /* ---------- Works セクション ---------- */
+.worksSection {
+  width: 100%;
+  max-width: 1000px;
+  padding: 80px 20px;
+  box-sizing: border-box;
+}
+
+.worksTitle {
+  font-size: 56px;
+  font-weight: 400;
+  margin-bottom: 80px;
+}
+
+.worksContent {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.worksMainImage,
+.worksSubImage {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: #ddd;
+}
+
+.worksPostTitle {
+  font-size: 28px;
+  margin: 24px 0 8px;
+}

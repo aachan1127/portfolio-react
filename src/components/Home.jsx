@@ -194,7 +194,10 @@ export const Home = () => {
               <span>（やまもと　あかね）</span>
             </h3>
             <p>とくに興味のある分野</p>
-            <p>フロントエンド / デザイン / アクセシビリティ / UIUX</p>
+            <p>
+              フロントエンド / バックエンド /<br></br>デザイン /
+              アクセシビリティ / UIUX
+            </p>
 
             <div className="socialLinks">
               <a
@@ -399,84 +402,92 @@ export const Home = () => {
           )}
         </div>
 
-        <button type="button" onClick={() => navigate("/study")}>
-          Study一覧を見る
-        </button>
+        <div className="sectionButtonArea">
+          <button type="button" onClick={() => navigate("/study")}>
+            Study一覧を見る
+          </button>
+        </div>
       </section>
 
       {/* ----- Works ----- */}
-      <section id="works">
-        <h2>Works</h2>
+      <section id="works" className="worksSection">
+        <h2 className="worksTitle">Works</h2>
 
-        {/* Worksメイン枠 */}
-        <div className="worksMain">
-          {mainWorksPost ? (
-            <>
-              <img
-                src={mainWorksPost.thumbnailUrl}
-                alt={mainWorksPost.title}
-                className="worksMainImage"
-              />
+        <div className="worksContent">
+          {/* Worksメイン枠 */}
+          <div className="worksMain">
+            {mainWorksPost ? (
+              <>
+                <img
+                  src={mainWorksPost.thumbnailUrl}
+                  alt={mainWorksPost.title}
+                  className="worksMainImage"
+                />
 
-              <p>{mainWorksPost.title}</p>
-              <TagList tags={mainWorksPost.tags} />
-            </>
-          ) : (
-            <p>Worksメイン未設定</p>
-          )}
+                <p>{mainWorksPost.title}</p>
+                <TagList tags={mainWorksPost.tags} />
+              </>
+            ) : (
+              <p>Worksメイン未設定</p>
+            )}
 
-          {auth.currentUser && (
-            <button
-              onClick={() =>
-                setSelectingSection({
-                  section: "works",
-                  rank: 1,
-                })
-              }
-            >
-              Worksメイン枠を変更
-            </button>
-          )}
+            {auth.currentUser && (
+              <button
+                onClick={() =>
+                  setSelectingSection({
+                    section: "works",
+                    rank: 1,
+                  })
+                }
+              >
+                Worksメイン枠を変更
+              </button>
+            )}
+          </div>
+
+          {/* Works サブ枠 */}
+          <div className="worksSub">
+            {subWorksPost ? (
+              <>
+                <img
+                  src={subWorksPost.thumbnailUrl}
+                  alt={subWorksPost.title}
+                  className="worksSubImage"
+                />
+
+                <p>{subWorksPost.title}</p>
+                <TagList tags={subWorksPost.tags} />
+              </>
+            ) : (
+              <p>Worksサブ未設定</p>
+            )}
+
+            {auth.currentUser && (
+              <button
+                onClick={() =>
+                  setSelectingSection({
+                    section: "works",
+                    rank: 2,
+                  })
+                }
+              >
+                Worksサブ枠を変更
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Works サブ枠 */}
-        <div className="worksSub">
-          {subWorksPost ? (
-            <>
-              <img
-                src={subWorksPost.thumbnailUrl}
-                alt={subWorksPost.title}
-                className="worksSubImage"
-              />
-
-              <p>{subWorksPost.title}</p>
-              <TagList tags={subWorksPost.tags} />
-            </>
-          ) : (
-            <p>Worksサブ未設定</p>
-          )}
-
-          {auth.currentUser && (
-            <button
-              onClick={() =>
-                setSelectingSection({
-                  section: "works",
-                  rank: 2,
-                })
-              }
-            >
-              Worksサブ枠を変更
-            </button>
-          )}
+        <div className="sectionButtonArea">
+          <button type="button" onClick={() => navigate("/works")}>
+            Works一覧を見る
+          </button>
         </div>
 
-        <button type="button" onClick={() => navigate("/works")}>
-          Works一覧を見る
-        </button>
-
-        <button type="button" onClick={() => navigate("/posts")}>
-          全投稿一覧を見る
-        </button>
+        <div className="sectionButtonArea">
+          <button type="button" onClick={() => navigate("/posts")}>
+            全投稿一覧を見る
+          </button>
+        </div>
       </section>
 
       <section id="skills">
