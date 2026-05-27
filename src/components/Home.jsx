@@ -232,6 +232,18 @@ export const Home = () => {
                   aria-label="Figmaを新しいタブで開く"
                 />
               </a>
+
+              <a
+                href="https://connpass.com/user/aachan_1127/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="/connpass_icon-removebg.png"
+                  alt="コンパスのページを新しいタブで開く"
+                  className="connpassIcon"
+                />
+              </a>
             </div>
           </div>
         </div>

@@ -145,6 +145,11 @@
   font-size: 40px;
 }
 
+.connpassIcon {
+  width: 90px;
+  height: 40px;
+  object-fit: contain;
+}
 /* ---------- Study セクション ---------- */
 .studySection {
   width: 100%;
