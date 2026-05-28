@@ -16,15 +16,43 @@ export const Home = () => {
   const [postList, setPostList] = useState([]);
   const navigate = useNavigate();
   const [selectingSection, setSelectingSection] = useState(null);
+  const [skillCategories, setSkillCategories] = useState([]);
+  const [skills, setSkills] = useState([]);
 
   // データ取得・関数を書く
   useEffect(() => {
     // Firestoreからデータを取得する関数
     const getPosts = async () => {
-      const data = await getDocs(collection(db, "posts"));
-      setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      try {
+        const data = await getDocs(collection(db, "posts"));
+        setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      } catch (error) {
+        console.error("投稿データの取得に失敗しました:", error);
+      }
+    };
+
+    const getSkillCategories = async () => {
+      try {
+        const data = await getDocs(collection(db, "skillCategories"));
+        setSkillCategories(
+          data.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
+        );
+      } catch (error) {
+        console.error("スキルカテゴリデータの取得に失敗しました:", error);
+      }
+    };
+
+    const getSkills = async () => {
+      try {
+        const data = await getDocs(collection(db, "skills"));
+        setSkills(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      } catch (error) {
+        console.error("スキルデータの取得に失敗しました:", error);
+      }
     };
     getPosts();
+    getSkillCategories();
+    getSkills();
   }, []);
 
   // YouTubeのURLから埋め込み用のURLを生成する関数 はutils/youtube.jsに移動
@@ -490,8 +518,50 @@ export const Home = () => {
         </div>
       </section>
 
-      <section id="skills">
-        <h2>Skills</h2>
+      <section id="skills" className="skillsSection">
+        <h2 className="skillsTitle">Skills</h2>
+
+        <div className="skillsContent">
+          {skillCategories
+            .filter((category) => category.isVisible)
+            .sort((a, b) => a.displayOrder - b.displayOrder)
+            .map((category) => {
+              const categorySkills = skills
+                .filter(
+                  (skill) =>
+                    skill.categoryId === category.id && skill.isVisible,
+                )
+                .sort((a, b) => a.displayOrder - b.displayOrder);
+
+              return (
+                <div className="skillCategory" key={category.id}>
+                  <h3 className="skillCategoryTitle">{category.name}</h3>
+
+                  <div className="skillBox">
+                    {categorySkills.map((skill) => (
+                      <div className="skillItem" key={skill.id}>
+                        <img
+                          src={skill.iconUrl}
+                          alt={`${skill.name}のアイコン`}
+                          className="skillIcon"
+                        />
+
+                        <div className="skillText">
+                          <p>{skill.description}</p>
+                          <button
+                            type="button"
+                            onClick={() => navigate(`/skills/${skill.id}`)}
+                          >
+                            この技術を使った代表作品を見る
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+        </div>
       </section>
     </div>
   );

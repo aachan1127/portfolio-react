@@ -12,6 +12,7 @@ import StudyDetail from "./components/StudyDetail";
 import WorksList from "./components/WorksList";
 import WorksDetail from "./components/WorksDetail";
 import AllPosts from "./components/AllPosts";
+import { SkillPosts } from "./components/SkillPosts";
 
 function App() {
   // ↓ リロードしてもログイン状態を管理するためのstate
@@ -34,6 +35,7 @@ function App() {
         <Route path="/posts" element={<AllPosts />} />
         <Route path="/study/:id" element={<StudyDetail />} />
         <Route path="/works/:id" element={<WorksDetail />} />
+        <Route path="/skills/:skillId" element={<SkillPosts />} />
       </Routes>
     </Router>
   );
