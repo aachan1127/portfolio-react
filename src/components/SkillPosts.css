@@ -1,0 +1,58 @@
+.skillPostsPage {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  box-sizing: border-box;
+}
+
+.skillPostsTitle {
+  font-size: 40px;
+  font-weight: 400;
+  margin-bottom: 40px;
+}
+
+.skillPostsIntro {
+  margin-bottom: 64px;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.relatedPostsTitle {
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 32px;
+}
+
+.relatedPostsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.relatedPostItem {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 56px;
+}
+
+.skillPostThumbnail {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: #ddd;
+}
+
+.relatedPostText h3 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.relatedPostText p {
+  font-size: 16px;
+  line-height: 1.8;
+}
