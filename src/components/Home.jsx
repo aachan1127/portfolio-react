@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db, auth } from "../lib/firebase";
+import { db, auth, storage } from "../lib/firebase";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { TagList } from "./TagList";
@@ -160,6 +166,38 @@ export const Home = () => {
   //     </div>
   //   );
   // };
+
+  // TODO: 後で SkillFormPage.jsx に移動する予定
+  const handleUploadSkillIcon = async (skill, file) => {
+    if (!file) return;
+
+    try {
+      // firestoreのskillsのidとストレージのパスを紐付ける。例: skillIcons/skillId/ファイル名
+      const imagePath = `skillIcons/${skill.id}/${file.name}`;
+      const imageRef = ref(storage, imagePath);
+
+      await uploadBytes(imageRef, file);
+
+      const downloadUrl = await getDownloadURL(imageRef);
+
+      await updateDoc(doc(db, "skills", skill.id), {
+        iconUrl: downloadUrl,
+        iconPath: imagePath,
+      });
+
+      // skillsのstateも更新する。skillsの中の、アイコンをアップロードしたスキルだけ、iconUrlとiconPathを更新する
+      setSkills((prev) =>
+        prev.map((item) =>
+          item.id === skill.id
+            ? { ...item, iconUrl: downloadUrl, iconPath: imagePath }
+            : item,
+        ),
+      );
+    } catch (error) {
+      console.error("スキルアイコンのアップロードに失敗しました:", error);
+      alert("アイコン画像の保存に失敗しました");
+    }
+  };
 
   // JSXで表示する
   return (
@@ -545,6 +583,15 @@ export const Home = () => {
                           alt={`${skill.name}のアイコン`}
                           className="skillIcon"
                         />
+                        {/* {auth.currentUser && (
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) =>
+                              handleUploadSkillIcon(skill, e.target.files[0])
+                            }
+                          />
+                        )} */}
 
                         <div className="skillText">
                           <p>{skill.description}</p>
@@ -554,10 +601,31 @@ export const Home = () => {
                           >
                             この技術を使った代表作品を見る
                           </button>
+                          {auth.currentUser && (
+                            <button
+                              type="button"
+                              onClick={() =>
+                                navigate(`/skills/${skill.id}/edit`)
+                              }
+                            >
+                              このスキルを変更する
+                            </button>
+                          )}
                         </div>
                       </div>
                     ))}
                   </div>
+
+                  {auth.currentUser && (
+                    <button
+                      type="button"
+                      onClick={() =>
+                        navigate(`/skill-categories/${category.id}/skills/new`)
+                      }
+                    >
+                      新しいスキルを追加
+                    </button>
+                  )}
                 </div>
               );
             })}
