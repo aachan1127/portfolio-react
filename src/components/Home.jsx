@@ -578,11 +578,13 @@ export const Home = () => {
                   <div className="skillBox">
                     {categorySkills.map((skill) => (
                       <div className="skillItem" key={skill.id}>
+                        {skill.iconUrl && (
                         <img
                           src={skill.iconUrl}
                           alt={`${skill.name}のアイコン`}
                           className="skillIcon"
                         />
+                        )}
                         {/* {auth.currentUser && (
                           <input
                             type="file"

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./PostForm.css";
 import {
   collection,
@@ -158,7 +158,7 @@ export const CreatePost = ({ isAuth }) => {
         imagePaths.push(imageRef.fullPath);
       }
 
-      // メイン・サブ・その他　の表示順をFirestore用の値として保存するための関数
+      // メイン・サブ・その他の表示順をFirestore用の値として保存するための関数
       const getDisplayRank = () => {
         if (displayType === "list") {
           return 7;
@@ -318,7 +318,7 @@ export const CreatePost = ({ isAuth }) => {
           <div>使用技術タグ</div>
 
           <div className="tagCheckboxGroup">
-            {/* 重複しているタグUI自体をコンポーネント化　TagCheckboxGroup.jsx */}
+            {/* 重複しているタグUI自体をコンポーネント化TagCheckboxGroup.jsx */}
             <TagCheckboxGroup tags={tags} onChange={handleTagChange} />
           </div>
         </div>
