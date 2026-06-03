@@ -1,12 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db, auth, storage } from "../lib/firebase";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
+import { db, auth } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import { TagList } from "./TagList";
@@ -166,38 +160,6 @@ export const Home = () => {
   //     </div>
   //   );
   // };
-
-  // TODO: 後で SkillFormPage.jsx に移動する予定
-  const handleUploadSkillIcon = async (skill, file) => {
-    if (!file) return;
-
-    try {
-      // firestoreのskillsのidとストレージのパスを紐付ける。例: skillIcons/skillId/ファイル名
-      const imagePath = `skillIcons/${skill.id}/${file.name}`;
-      const imageRef = ref(storage, imagePath);
-
-      await uploadBytes(imageRef, file);
-
-      const downloadUrl = await getDownloadURL(imageRef);
-
-      await updateDoc(doc(db, "skills", skill.id), {
-        iconUrl: downloadUrl,
-        iconPath: imagePath,
-      });
-
-      // skillsのstateも更新する。skillsの中の、アイコンをアップロードしたスキルだけ、iconUrlとiconPathを更新する
-      setSkills((prev) =>
-        prev.map((item) =>
-          item.id === skill.id
-            ? { ...item, iconUrl: downloadUrl, iconPath: imagePath }
-            : item,
-        ),
-      );
-    } catch (error) {
-      console.error("スキルアイコンのアップロードに失敗しました:", error);
-      alert("アイコン画像の保存に失敗しました");
-    }
-  };
 
   // JSXで表示する
   return (
