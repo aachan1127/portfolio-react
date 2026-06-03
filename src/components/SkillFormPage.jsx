@@ -9,6 +9,7 @@ import {
   getDocs,
   query,
   where,
+  deleteDoc,
 } from "firebase/firestore";
 import { db, storage } from "../lib/firebase";
 import {
@@ -243,6 +244,52 @@ const SkillFormPage = () => {
     }
   };
 
+  // 削除処理
+  const handleDeleteSkill = async () => {
+    const isConfirmed = window.confirm("このスキルを削除しますか？");
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    try {
+      const skillsQuery = query(
+        collection(db, "skills"),
+        where("categoryId", "==", skill.categoryId),
+      );
+
+      const skillsSnapshot = await getDocs(skillsQuery);
+
+      const updatePromises = skillsSnapshot.docs.map((skillDoc) => {
+        const existingSkill = skillDoc.data();
+
+        if (existingSkill.displayOrder > skill.displayOrder) {
+          return updateDoc(doc(db, "skills", skillDoc.id), {
+            displayOrder: existingSkill.displayOrder - 1,
+          });
+        }
+
+        return null;
+      });
+
+      const filteredUpdatePromises = updatePromises.filter(Boolean);
+      await Promise.all(filteredUpdatePromises);
+
+      if (skill.iconPath) {
+        const iconRef = ref(storage, skill.iconPath);
+        await deleteObject(iconRef);
+      }
+
+      await deleteDoc(doc(db, "skills", skill.id));
+
+      alert("スキルを削除しました");
+      navigate("/");
+    } catch (error) {
+      console.error("スキルの削除に失敗しました", error);
+      alert("スキルの削除に失敗しました");
+    }
+  };
+
   const handleUploadSkillIcon = async (file) => {
     if (!file || !skill) return;
 
@@ -327,6 +374,12 @@ const SkillFormPage = () => {
           <button type="button" onClick={handleSaveSkill}>
             保存する
           </button>
+
+          {isEditMode && (
+            <button type="button" onClick={handleDeleteSkill}>
+              このスキルを削除する
+            </button>
+          )}
         </div>
       )}
       {isCreateMode && <p>新規作成モードです</p>}
