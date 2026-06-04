@@ -29,6 +29,7 @@ const SkillFormPage = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [originalDisplayOrder, setOriginalDisplayOrder] = useState(null);
   const [maxDisplayOrder, setMaxDisplayOrder] = useState(1);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     const getSkill = async () => {
@@ -92,7 +93,16 @@ const SkillFormPage = () => {
         console.error("不正なURLです");
       }
     };
+    const getPosts = async () => {
+      try {
+        const data = await getDocs(collection(db, "posts"));
+        setPosts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      } catch (error) {
+        console.error("投稿データの取得に失敗しました", error);
+      }
+    };
     getSkill();
+    getPosts();
   }, [skillId, categoryId, isEditMode, isCreateMode]);
 
   const handleSaveSkill = async () => {
@@ -176,6 +186,7 @@ const SkillFormPage = () => {
           iconUrl: skill.iconUrl,
           iconPath: skill.iconPath,
           displayOrder: skill.displayOrder,
+          relatedPostIds: skill.relatedPostIds,
         });
         alert("スキルが正常に更新されました");
         navigate("/");
@@ -370,6 +381,37 @@ const SkillFormPage = () => {
                 })
               }
             />
+          </div>
+
+          <div>
+            <h2>代表作品</h2>
+            {posts.map((post) => (
+              <label key={post.id}>
+                <input
+                  type="checkbox"
+                  checked={skill.relatedPostIds?.includes(post.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSkill({
+                        ...skill,
+                        relatedPostIds: [
+                          ...(skill.relatedPostIds || []),
+                          post.id,
+                        ],
+                      });
+                    } else {
+                      setSkill({
+                        ...skill,
+                        relatedPostIds: skill.relatedPostIds.filter(
+                          (id) => id !== post.id,
+                        ),
+                      });
+                    }
+                  }}
+                />
+                {post.title}
+              </label>
+            ))}
           </div>
           <button type="button" onClick={handleSaveSkill}>
             保存する
