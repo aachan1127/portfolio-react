@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../lib/firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Home.css";
 import { TagList } from "./TagList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,6 +15,7 @@ export const Home = () => {
   // stateを用意
   const [postList, setPostList] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectingSection, setSelectingSection] = useState(null);
   const [skillCategories, setSkillCategories] = useState([]);
   const [skills, setSkills] = useState([]);
@@ -54,6 +55,29 @@ export const Home = () => {
     getSkillCategories();
     getSkills();
   }, []);
+
+  // URLのハッシュに応じてスクロールするためのuseEffect
+  useEffect(() => {
+    if (!location.hash) return;
+
+    // skills の場合だけ、データ読み込み完了を待つ
+    if (
+      location.hash === "#skills" &&
+      (skillCategories.length === 0 || skills.length === 0)
+    ) {
+      return;
+    }
+
+    const targetId = location.hash.replace("#", "");
+    const targetElement = document.getElementById(targetId);
+
+    if (!targetElement) return;
+
+    targetElement.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [location.hash, skillCategories, skills]);
 
   // YouTubeのURLから埋め込み用のURLを生成する関数 はutils/youtube.jsに移動
   // const getYouTubeEmbedUrl = (url) => {
