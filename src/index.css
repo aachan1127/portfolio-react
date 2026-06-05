@@ -1,6 +1,11 @@
 body {
   margin: 0;
   background-color: white;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 /* :root {

@@ -1,22 +1,179 @@
-nav {
+.siteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 60px 20px;
+  background-color: #fff;
+  transition: background-color 0.5s ease, padding 0.5s ease;
+}
+
+/* ホームページでのみスクロールしても画面上部にナビゲーションを固定 */
+.siteHeader.isHomeHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.siteLogo {
+  color: #5f5757;
+  font-size: 36px;
+  font-family: "Cormorant Garamond", serif;
+  line-height: 1.2;
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity 0.5s ease, color 0.5s ease, font-size 0.5s ease;
+}
+
+.siteNav {
+  display: flex;
+  gap: 56px;
+  margin-top: 48px;
+}
+
+.siteNav a {
+  position: relative;
+  color: #5f5757;
+  font-size: 22px;
+  text-decoration: none;
+  transition: opacity 0.5s ease, color 0.5s ease, font-size 0.5s ease;
+}
+
+.siteNav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 1px;
+  background-color: #5f5757;
+  transition: width 0.5s ease;
+}
+
+.siteNav a:hover::after {
+  width: 100%;
+}
+
+.siteHeader.isScrolled {
+  align-items: center;
+  padding: 12px 60px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.siteHeader.isScrolled .siteLogo {
+  opacity: 0.7;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.siteHeader.isScrolled .siteNav {
+  margin-top: 0;
+}
+
+.siteHeader.isScrolled .siteNav a {
+  opacity: 0.7;
+  font-size: 20px;
+}
+
+.siteHeader.isSubPageHeader {
+  align-items: center;
+  padding: 12px 60px;
+  background-color: #f5f5f5;
+}
+
+.siteHeader.isSubPageHeader .siteLogo {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.siteHeader.isSubPageHeader .siteNav {
+  margin-top: 0;
+}
+
+.siteHeader.isSubPageHeader .siteNav a {
+  font-size: 18px;
+}
+
+.hamburgerButton {
+  display: none;
+}
+
+/* ---- ハンバーガーメニュー ---- */
+@media (max-width: 768px) {
+  .siteHeader {
+    align-items: center;
+    padding: 16px 24px;
+  }
+
+  .siteLogo {
+    font-size: 24px;
+    line-height: 1;
+    position: relative;
+    z-index: 10000;
+  }
+
+  .hamburgerButton {
     display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 10000;
+  }
+
+  .hamburgerButton span {
+    width: 28px;
+    height: 2px;
+    background-color: #5f5757;
+  }
+
+  .siteNav {
+    display: none;
+  }
+
+  .siteHeader.isMenuOpen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: none;
+  }
+
+  .siteHeader.isMenuOpen .siteLogo {
+    color: #fff;
+    opacity: 1;
+  }
+
+  .siteHeader.isMenuOpen .hamburgerButton span {
+    background-color: #fff;
+  }
+
+  .siteNav.isOpen {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    z-index: 9999;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 50px;
-    background-color: #333;
-    gap: 45px;
+    gap: 40px;
+    margin-top: 0;
+    background-color: transparent;
+  }
+
+  .siteNav.isOpen a {
+    color: #fff;
+    font-size: 20px;
+  }
+
+  .siteHeader.isMenuOpen .siteNav.isOpen a {
+  opacity: 1;
 }
 
-nav a {
-    text-decoration: none;
-    color: white;
-    transition: all 0.3s ease;
-}
-
-nav a:hover {
-    color: #61dafb;
-}
-
-nav a svg {
-    margin-right: 5px;
+  .siteNav.isOpen a::after {
+    background-color: #fff;
+  }
 }

@@ -164,11 +164,6 @@ export const Home = () => {
   // JSXで表示する
   return (
     <div className="homePage">
-      <a href="#about">About</a>
-      <a href="#study">Study</a>
-      <a href="#works">Works</a>
-      <a href="#skills">Skills</a>
-
       <section id="hero" className="heroSection">
         <div className="heroImageArea">
           <img
@@ -541,11 +536,11 @@ export const Home = () => {
                     {categorySkills.map((skill) => (
                       <div className="skillItem" key={skill.id}>
                         {skill.iconUrl && (
-                        <img
-                          src={skill.iconUrl}
-                          alt={`${skill.name}のアイコン`}
-                          className="skillIcon"
-                        />
+                          <img
+                            src={skill.iconUrl}
+                            alt={`${skill.name}のアイコン`}
+                            className="skillIcon"
+                          />
                         )}
                         {/* {auth.currentUser && (
                           <input
@@ -595,6 +590,17 @@ export const Home = () => {
             })}
         </div>
       </section>
+      <div className="adminLinks">
+        <button type="button" onClick={() => navigate("/login")}>
+          ログイン
+        </button>
+
+        {auth.currentUser && (
+          <button type="button" onClick={() => navigate("/createpost")}>
+            作品投稿
+          </button>
+        )}
+      </div>
     </div>
   );
 };

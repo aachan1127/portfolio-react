@@ -22,7 +22,7 @@ function App() {
 
   return (
     <Router>
-      <Navbar isAuth={isAuth}></Navbar>
+      <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route
