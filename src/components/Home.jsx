@@ -216,14 +216,30 @@ export const Home = () => {
       <section id="about" className="aboutSection">
         <h2 className="aboutTitle">About</h2>
         <div className="aboutText">
-          <p>
-            2024年に半年間ジーズアカデミー（現G’s）で未経験からプログラミングを学ぶ。
-          </p>
-          <p>2025年に学んだ知識を活かし、２件の案件を業務委託で行う。</p>
-          <p>
-            2026年6月、通っていたスクールで授業のサポート（チューター）を始める。
-          </p>
-          <p>現在、チューターの傍ら勉強を続け、求職中。</p>
+          <div className="aboutHistoryItem">
+            <span className="aboutHistoryYear">2023年</span>
+            <p>事務の仕事をしながらプログラミングを独学でスタート。</p>
+          </div>
+          <div className="aboutHistoryItem">
+            <span className="aboutHistoryYear">2024年</span>
+            <p>
+              しっかり学びたいと思い仕事を辞め、半年間ジーズ（スクール）でプログラミングを学ぶ。
+            </p>
+          </div>
+          <div className="aboutHistoryItem">
+            <span className="aboutHistoryYear">2025年</span>
+            <p>
+              G&apos;s卒業後、学んだ知識を活かし、業務委託でエンジニアの仕事をスタート。
+            </p>
+          </div>
+          <div className="aboutHistoryItem">
+            <span className="aboutHistoryYear">2026年 6月</span>
+            <p>通っていたスクールで授業のサポート（チューター）を始める。</p>
+          </div>
+          <div className="aboutHistoryItem">
+            <span className="aboutHistoryYear">現在</span>
+            <p>チューターの傍ら勉強を続け、求職中。</p>
+          </div>
         </div>
 
         <div className="aboutProfile">

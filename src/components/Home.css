@@ -101,8 +101,19 @@
   line-height: 1.9;
 }
 
-.aboutText p {
+.aboutHistoryItem {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  column-gap: 24px;
   margin-bottom: 18px;
+}
+
+.aboutHistoryYear {
+  white-space: nowrap;
+}
+
+.aboutHistoryItem p {
+  margin: 0;
 }
 
 .aboutProfile {
@@ -396,4 +407,17 @@
   color: #2f9bd3;
   font-size: 16px;
   cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .aboutHistoryItem {
+    grid-template-columns: 1fr;
+    row-gap: 2px;
+  }
+    .aboutHistoryYear {
+    display: block;
+    width: 100%;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #cacaca;
+  }
 }
