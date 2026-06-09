@@ -10,6 +10,7 @@ import {
   faXTwitter,
   faFigma,
 } from "@fortawesome/free-brands-svg-icons";
+import AdminButton from "./Button/AdminButton";
 
 export const Home = () => {
   // stateを用意
@@ -218,7 +219,7 @@ export const Home = () => {
         <div className="aboutText">
           <div className="aboutHistoryItem">
             <span className="aboutHistoryYear">2023年</span>
-            <p>事務の仕事をしながらプログラミングを独学でスタート。</p>
+            <p>事務の仕事をしながらプログラミングを独学で始める。</p>
           </div>
           <div className="aboutHistoryItem">
             <span className="aboutHistoryYear">2024年</span>
@@ -234,7 +235,7 @@ export const Home = () => {
           </div>
           <div className="aboutHistoryItem">
             <span className="aboutHistoryYear">2026年 6月</span>
-            <p>通っていたスクールで授業のサポート（チューター）を始める。</p>
+            <p>通っていたスクールで授業のサポート（チューター）を開始。</p>
           </div>
           <div className="aboutHistoryItem">
             <span className="aboutHistoryYear">現在</span>
@@ -337,7 +338,7 @@ export const Home = () => {
             )}
 
             {auth.currentUser && (
-              <button
+              <AdminButton
                 onClick={() =>
                   setSelectingSection({
                     section: "study",
@@ -346,7 +347,7 @@ export const Home = () => {
                 }
               >
                 メイン枠を変更
-              </button>
+              </AdminButton>
             )}
           </div>
 
@@ -369,7 +370,7 @@ export const Home = () => {
               )}
 
               {auth.currentUser && (
-                <button
+                <AdminButton
                   onClick={() =>
                     setSelectingSection({
                       section: "study",
@@ -378,7 +379,7 @@ export const Home = () => {
                   }
                 >
                   サブ枠を変更
-                </button>
+                </AdminButton>
               )}
             </div>
 
@@ -410,7 +411,7 @@ export const Home = () => {
                       )}
 
                       {auth.currentUser && (
-                        <button
+                        <AdminButton
                           onClick={() =>
                             setSelectingSection({
                               section: "study",
@@ -419,7 +420,7 @@ export const Home = () => {
                           }
                         >
                           この枠を変更
-                        </button>
+                        </AdminButton>
                       )}
                     </div>
                   );
@@ -495,7 +496,7 @@ export const Home = () => {
             )}
 
             {auth.currentUser && (
-              <button
+              <AdminButton
                 onClick={() =>
                   setSelectingSection({
                     section: "works",
@@ -504,7 +505,7 @@ export const Home = () => {
                 }
               >
                 Worksメイン枠を変更
-              </button>
+              </AdminButton>
             )}
           </div>
 
@@ -526,7 +527,7 @@ export const Home = () => {
             )}
 
             {auth.currentUser && (
-              <button
+              <AdminButton
                 onClick={() =>
                   setSelectingSection({
                     section: "works",
@@ -535,7 +536,7 @@ export const Home = () => {
                 }
               >
                 Worksサブ枠を変更
-              </button>
+              </AdminButton>
             )}
           </div>
         </div>
@@ -601,14 +602,14 @@ export const Home = () => {
                             この技術を使った代表作品を見る
                           </button>
                           {auth.currentUser && (
-                            <button
+                            <AdminButton
                               type="button"
                               onClick={() =>
                                 navigate(`/skills/${skill.id}/edit`)
                               }
                             >
                               このスキルを変更する
-                            </button>
+                            </AdminButton>
                           )}
                         </div>
                       </div>
@@ -616,14 +617,14 @@ export const Home = () => {
                   </div>
 
                   {auth.currentUser && (
-                    <button
+                    <AdminButton
                       type="button"
                       onClick={() =>
                         navigate(`/skill-categories/${category.id}/skills/new`)
                       }
                     >
                       新しいスキルを追加
-                    </button>
+                    </AdminButton>
                   )}
                 </div>
               );
@@ -631,12 +632,20 @@ export const Home = () => {
         </div>
       </section>
       <div className="adminLinks">
-        <button type="button" onClick={() => navigate("/login")}>
-          ログイン
+        <button
+          className="adminNavButton"
+          type="button"
+          onClick={() => navigate(auth.currentUser ? "/logout" : "/login")}
+        >
+          {auth.currentUser ? "ログアウト" : "ログイン"}
         </button>
 
         {auth.currentUser && (
-          <button type="button" onClick={() => navigate("/createpost")}>
+          <button
+            className="adminNavButton"
+            type="button"
+            onClick={() => navigate("/createpost")}
+          >
             作品投稿
           </button>
         )}

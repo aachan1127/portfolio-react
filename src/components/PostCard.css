@@ -64,33 +64,37 @@
   border-radius: 8px;
 }
 
-.nameAndDeleteButton {
+.postActionButtons {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
   flex-wrap: wrap;
-}
-
-.nameAndDeleteButton h3 {
-  margin: 0;
-  word-break: break-word;
-}
-
-.nameAndDeleteButton button {
+  gap: 12px;
   margin-left: auto;
-  background-color: #e96a6a;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
 }
 
-.nameAndDeleteButton button:hover {
-  background-color: #ff1a1a;
+.DeleteButton {
+  display: block;
+  margin-left: auto;
+  margin-top: 16px;
+  padding: 3px 10px;
+  border: 1px solid #de5a5a;
+  border-radius: 999px;
+  background-color: #de5a5a;
+  color: #e7e6e6;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.DeleteButton:hover {
+  background-color: #ce0101;
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 .EditButton {

@@ -26,6 +26,47 @@
   flex-wrap: wrap;
 }
 
+
+/* ---------- 管理者用ナビゲーションボタン ---------- */
+.adminLinks {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 80px 0 40px;
+  flex-wrap: wrap;
+}
+
+.adminNavButton {
+  padding: 12px 24px;
+  border: 1px solid #5f5757;
+  border-radius: 999px;
+  background-color: transparent;
+  color: #5f5757;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.adminNavButton:hover {
+  background-color: #5f5757;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.adminNavButtonPrimary {
+  background-color: #5f5757;
+  color: #fff;
+}
+
+.adminNavButtonPrimary:hover {
+  background-color: #111;
+}
+
 /* ---------- Hero セクション ---------- */
 .heroSection {
   width: 100%;
@@ -68,7 +109,7 @@
   font-size: 24px;
   line-height: 1.7;
   color: #111;
-    font-family: "Klee One", cursive;
+  font-family: "Klee One", cursive;
   font-weight: 400;
   font-style: normal;
 }
@@ -401,7 +442,7 @@
   margin-bottom: 16px;
 }
 
-.skillText button {
+.skillText button:not(.adminButton) {
   border: none;
   background: transparent;
   color: #2f9bd3;
