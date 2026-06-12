@@ -1,0 +1,79 @@
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.tagItem {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  background: #eee;
+  color: #555;
+}
+
+.tagCss {
+  background: #e8f2fb;
+  color: #2f5f85;
+}
+
+.tagHtml {
+  background: #fff1e6;
+  color: #b85c00;
+}
+
+.tagJavaScript {
+  background: #eef8e8;
+  color: #3f7f2f;
+}
+
+.tagJQuery {
+  background: #fffac6;
+  color: #b18800;
+}
+
+.tagReact {
+  background: #e0f7ff;
+  color: #008ab1;
+}
+.tagTypeScript {
+  background: #e6e6fa;
+  color: #6d00cc;
+}
+
+.tagWordPress {
+  background: #21759b;
+  color: #fff;
+}
+
+.tagSwift {
+  background: #f0f0f0;
+  color: #000;
+}
+
+.tagPhp {
+  background: #ff8282;
+  color: #ffffff;
+}
+
+.tagLaravel {
+  background: #ffecf6;
+  color: #ff2d2d;
+}
+
+.tagDocker {
+  background: #4a89bc;
+  color: #e8f2fb;
+}
+
+.tagFirebase {
+  background: #faae3d;
+  color: #614e32;
+}
+
+.tagAws {
+  background: #7f54ff;
+  color: #fff;
+}

@@ -183,9 +183,7 @@ export const CreatePost = ({ isAuth }) => {
             1: "メイン",
             2: "サブ",
             3: "その他1番目",
-            4: "その他2番目",
-            5: "その他3番目",
-            6: "その他4番目",
+            4: "その他2番目"
           };
 
           const isConfirmed = window.confirm(
@@ -307,8 +305,6 @@ export const CreatePost = ({ isAuth }) => {
               <>
                 <option value="3">その他1番目</option>
                 <option value="4">その他2番目</option>
-                <option value="5">その他3番目</option>
-                <option value="6">その他4番目</option>
               </>
             )}
           </select>
