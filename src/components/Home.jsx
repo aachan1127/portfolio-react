@@ -153,11 +153,11 @@ export const Home = () => {
       (post) =>
         post.category === "study" &&
         post.studyDisplayRank >= 3 &&
-        post.studyDisplayRank <= 6,
+        post.studyDisplayRank <= 4,
     )
     .sort((a, b) => a.studyDisplayRank - b.studyDisplayRank);
-  // Studyのその他枠を表示するための値。今は4つまで表示させる想定なので、3,4,5,6を用意する。もしその他枠を増やしたい場合はここを増やす。
-  const studyOtherRanks = [3, 4, 5, 6];
+  // Studyのその他枠を表示するための値。今は2つまで表示させる想定なので、3,4を用意する。もしその他枠を増やしたい場合はここを増やす。
+  const studyOtherRanks = [3, 4];
 
   // worksDisplayRankも同様に、どの位置に表示させるかを判断するための値を作る
   const mainWorksPost = postList.find(

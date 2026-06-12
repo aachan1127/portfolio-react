@@ -8,19 +8,22 @@ const Login = ({ setIsAuth }) => {
 
   const loginWithGoogle = () => {
     // Googleログインの処理
-    signInWithPopup(auth, provider).then((result) => {
-      localStorage.setItem("isAuth", "true");
-      setIsAuth(true);
-      navigate("/");
-    })
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        localStorage.setItem("isAuth", "true");
+        setIsAuth(true);
+        navigate("/");
+      })
       .catch((error) => {
         console.error("ログインエラー:", error.code, error.message);
       });
   };
 
-
   return (
     <div>
+      <button type="button" onClick={() => navigate("/")}>
+        ホーム画面に戻る
+      </button>
       <p>ログインして始める</p>
       <button onClick={loginWithGoogle}>Googleでログイン</button>
     </div>

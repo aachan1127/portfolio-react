@@ -255,41 +255,51 @@
   background: #ddd;
 }
 
-.studyBottom {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
-}
-
-.studySubImage {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  display: block;
-  background: #ddd;
-}
-
+/* タイトル */
 .studyPostTitle {
   font-size: 28px;
   margin: 24px 0 8px;
 }
 
+/* サブ + その他 */
+.studyBottom {
+  display: grid;
+  grid-template-columns: 1.9fr 0.9fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 44px;
+}
+
+/* サブ枠 */
+.studySubImage {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  background: #ddd;
+}
+
+/* その他 */
 .studyOthersTitle {
-  font-size: 24px;
+  font-size: 20px;
   margin-top: 24px;
 }
 
 .studyOthersGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.studyOtherItem p {
+  font-size: 20px;
+  margin: 14px 0 0;
 }
 
 .studyOtherImage,
 .studyOtherPlaceholder {
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   display: block;
   background: #ddd;
