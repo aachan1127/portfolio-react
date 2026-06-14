@@ -1,0 +1,63 @@
+.backButton {
+  display: inline-flex; align-items: center; gap: 8px;
+  align-self: flex-start;
+  padding: 10px 14px; margin-bottom: 20px;
+  border: none; background: transparent;
+  color: #5f5757; font-size: 15px; font-weight: 500;
+  border-radius: 8px; cursor: pointer;
+  transition: background-color .25s ease;
+}
+.backButton:hover { background: #f4efe9; }
+
+.pageTitle {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 56px; font-weight: 400; margin: 0 0 26px;
+}
+
+.listToolbar {
+  display: flex; flex-wrap: wrap; gap: 16px;
+  align-items: center; justify-content: space-between;
+  width: 100%; max-width: 760px;
+  padding-bottom: 22px; margin-bottom: 28px;
+  border-bottom: 1px solid #ece7e2;
+}
+.tagFilterArea { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* 絞り込みチップ */
+.tagFilterButton {
+  padding: 9px 18px; border-radius: 999px;
+  border: 1px solid #d6cfc9; background: #fff;
+  color: #5f5757; font-size: 14px; font-weight: 500;
+  letter-spacing: .03em; cursor: pointer;
+  transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.tagFilterButton:hover { transform: translateY(-2px); background: #f4efe9; }
+.tagFilterButton.isActive {
+  background: #5f5757; border-color: #5f5757; color: #fff;
+}
+
+/* 右側 */
+.toolbarRight { display: flex; align-items: center; gap: 16px; }
+.resultCount { font-size: 14px; color: #8a827c; white-space: nowrap; }
+
+/* 並べ替えセグメント */
+.sortControl {
+  display: inline-flex; padding: 4px;
+  background: #f1ece7; border: 1px solid #e4ddd7; border-radius: 999px;
+}
+.sortSegment {
+  padding: 9px 20px; border: none; background: transparent;
+  color: #6e6663; font-size: 14px; font-weight: 500;
+  border-radius: 999px; cursor: pointer; transition: color .25s ease;
+}
+.sortSegment.isActive {
+  background: #5f5757; color: #fff;
+  box-shadow: 0 4px 10px -4px rgba(70,63,63,.6);
+}
+
+/* フォーカス可視化（AA） */
+.tagFilterButton:focus-visible,
+.sortSegment:focus-visible,
+.backButton:focus-visible {
+  outline: 3px solid #8a5a3c; outline-offset: 2px;
+}

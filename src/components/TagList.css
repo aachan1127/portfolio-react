@@ -21,31 +21,31 @@
 
 .tagHtml {
   background: #fff1e6;
-  color: #b85c00;
+  color: #a85400;
 }
 
 .tagJavaScript {
   background: #eef8e8;
-  color: #3f7f2f;
+  color: #356a26;
 }
 
 .tagJQuery {
   background: #fffac6;
-  color: #b18800;
+  color: #8a6a00;
 }
 
 .tagReact {
   background: #e0f7ff;
-  color: #008ab1;
+  color: #0079a0;
 }
 .tagTypeScript {
   background: #e6e6fa;
-  color: #6d00cc;
+  color: #5a00b0;
 }
 
 .tagWordPress {
-  background: #21759b;
-  color: #fff;
+  background: #1f6f93;
+  color: #ffffff;
 }
 
 .tagSwift {
@@ -60,7 +60,7 @@
 
 .tagLaravel {
   background: #ffecf6;
-  color: #ff2d2d;
+  color: #c2003f;
 }
 
 .tagDocker {

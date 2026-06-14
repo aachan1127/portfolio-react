@@ -5,12 +5,13 @@ import { db } from "../lib/firebase";
 import { TECH_TAGS } from "./utils/tags";
 import { PostCard } from "./PostCard";
 import "./Home.css";
+import "./PostList.css";
 import { storage } from "../lib/firebase";
 import { ref, deleteObject } from "firebase/storage";
 
 export const PostList = ({ category, title }) => {
   const [posts, setPosts] = useState([]);
-  const [selectedTag, setSelectedTag] = useState("");
+  const [selectedTag, setSelectedTag] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,28 +62,59 @@ export const PostList = ({ category, title }) => {
     }
   };
 
-  const filteredPosts = posts.filter((post) =>
-    selectedTag ? post.tags?.includes(selectedTag) : true,
-  );
+  // タグフィルタリング
+  const filteredPosts = posts.filter((post) => {
+    if (selectedTag.length === 0) {
+      return true;
+    }
+    return selectedTag.some((tag) => post.tags?.includes(tag));
+  });
 
   return (
     <div className="homePage">
-      <button type="button" onClick={() => navigate("/")}>
-        ホームに戻る
+      <button
+        className="backButton"
+        type="button"
+        onClick={() => navigate("/")}
+      >
+        ← ホームに戻る
       </button>
 
-      <h1>{title}</h1>
+      <h1 className="pageTitle">{title}</h1>
 
-      <div className="tagFilterArea">
-        <button type="button" onClick={() => setSelectedTag("")}>
-          すべて
-        </button>
-
-        {TECH_TAGS.map((tag) => (
-          <button type="button" key={tag} onClick={() => setSelectedTag(tag)}>
-            {tag}
+      <div className="listToolbar">
+        <div className="tagFilterArea">
+          <button
+            className={`tagFilterButton ${
+              selectedTag.length === 0 ? "isActive" : ""
+            }`}
+            type="button"
+            onClick={() => setSelectedTag([])}
+          >
+            すべて
           </button>
-        ))}
+
+          {TECH_TAGS.map((tag) => (
+            <button
+              className={`tagFilterButton ${
+                selectedTag.includes(tag) ? "isActive" : ""
+              }`}
+              type="button"
+              key={tag}
+              onClick={() => {
+                if (selectedTag.includes(tag)) {
+                  // すでに選択されているタグをクリックした場合は、選択解除する
+                  setSelectedTag(selectedTag.filter((item) => item !== tag));
+                } else {
+                  // 新しいタグを選択する場合は、既存の選択に追加する
+                  setSelectedTag([...selectedTag, tag]);
+                }
+              }}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
       </div>
 
       {filteredPosts.map((post) => (
