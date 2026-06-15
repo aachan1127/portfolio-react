@@ -104,13 +104,34 @@
 
 /* 並べ替えセグメント */
 .sortControl {
+  position: relative;
   display: inline-flex;
   padding: 4px;
   background: #f1ece7;
   border: 1px solid #e4ddd7;
   border-radius: 999px;
+  overflow: hidden;
 }
+
+.sortControl::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: #5f5757;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px -4px rgba(70,63,63,.6);
+  transition: transform 0.3s ease;
+}
+.sortControl.isOld::before {
+  transform: translateX(100%);
+}
+
 .sortSegment {
+  position: relative;
+  z-index: 1;
   padding: 9px 20px;
   border: none;
   background: transparent;
@@ -122,9 +143,7 @@
   transition: color .25s ease;
 }
 .sortSegment.isActive {
-  background: #5f5757;
   color: #fff;
-  box-shadow: 0 4px 10px -4px rgba(70,63,63,.6);
 }
 
 /* フォーカス可視化（AA） */

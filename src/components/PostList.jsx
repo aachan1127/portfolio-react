@@ -13,6 +13,7 @@ export const PostList = ({ category, title }) => {
   const [posts, setPosts] = useState([]);
   const [selectedTag, setSelectedTag] = useState([]);
   const navigate = useNavigate();
+  const [sortOrder, setSortOrder] = useState("new");
 
   useEffect(() => {
     const getPosts = async () => {
@@ -70,6 +71,14 @@ export const PostList = ({ category, title }) => {
     return selectedTag.some((tag) => post.tags?.includes(tag));
   });
 
+  // 並べ替え
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    const aTime = a.createdAt?.seconds || 0;
+    const bTime = b.createdAt?.seconds || 0;
+
+    return sortOrder === "new" ? bTime - aTime : aTime - bTime;
+  });
+
   return (
     <div className="homePage">
       <button
@@ -117,10 +126,34 @@ export const PostList = ({ category, title }) => {
             </button>
           ))}
         </div>
+
+        <div className="toolbarRight">
+          <span className="resultCount">{sortedPosts.length}件</span>
+
+          <div
+            className={`sortControl ${sortOrder === "old" ? "isOld" : "isNew"}`}
+          >
+            <button
+              className={`sortSegment ${sortOrder === "new" ? "isActive" : ""}`}
+              type="button"
+              onClick={() => setSortOrder("new")}
+            >
+              新着順
+            </button>
+
+            <button
+              className={`sortSegment ${sortOrder === "old" ? "isActive" : ""}`}
+              type="button"
+              onClick={() => setSortOrder("old")}
+            >
+              古い順
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="postCardGrid">
-        {filteredPosts.map((post) => (
+        {sortedPosts.map((post) => (
           // PostCardコンポーネントをクリックしたときの挙動
           <PostCard
             key={post.id}
