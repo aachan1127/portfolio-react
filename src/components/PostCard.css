@@ -1,56 +1,77 @@
 .postContents {
   width: 100%;
-  max-width: 600px;
-  height: auto;
-  background-color: white;
-  box-shadow: 4px 8px 9px -1px #777777;
-  margin: 20px;
-  padding: 20px;
-  border-radius: 10px;
-  box-sizing: border-box;
-  overflow: visible;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 14px;
+  border: 1px solid #eae5e0;
+  overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 24px -18px rgba(80,72,68,.7);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+    display: flex;
+  flex-direction: column;
 }
 
 .postContents:hover {
   transform: translateY(-4px);
-  box-shadow: 4px 12px 14px -4px #777777;
+  box-shadow: 0 14px 28px -14px rgba(80,72,68,.7);
 }
 
-.postHeader h1 {
-  text-align: center;
-  margin-top: 5px;
-}
-
-.postTextContainer {
-  height: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+.postImageArea {
   width: 100%;
+  aspect-ratio: 4 / 3;
+  background-color: #f6f2ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.postImageContainer {
-  margin-top: 20px;
-  width: 100%;
+.postBody {
+  flex: 1;
+  padding: 20px 22px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.postMeta {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: #8a5a3c;
+  margin: 0 0 9px;
+}
+
+.postTitle {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  margin: 0 0 13px;
 }
 
 .postImage {
-  display: block;
   width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  height: 100%;
+  border-radius: 0;
+  object-fit: contain;
   cursor: pointer;
 }
 
-.postImageListContainer {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+/* 画像が投稿されていない場合↓を表示 */
+.postImagePlaceholder {
   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b8afa8;
+  font-weight: 600;
 }
+
 
 .postVideoContainer {
   margin-top: 20px;
@@ -66,20 +87,20 @@
 
 .postActionButtons {
   display: flex;
-  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
   gap: 12px;
-  margin-left: auto;
+  margin-top: auto;
 }
 
 .DeleteButton {
   display: block;
-  margin-left: auto;
   margin-top: 16px;
   padding: 3px 10px;
-  border: 1px solid #de5a5a;
+  border: 1px solid #b23b3b;
   border-radius: 999px;
-  background-color: #de5a5a;
-  color: #e7e6e6;
+  background-color: #ffffff;
+  color: #b23b3b;
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -92,11 +113,7 @@
 }
 
 .DeleteButton:hover {
-  background-color: #ce0101;
+  background-color: #b23b3b;
   color: #fff;
   transform: translateY(-1px);
-}
-
-.EditButton {
-  margin-top: 10px;
 }

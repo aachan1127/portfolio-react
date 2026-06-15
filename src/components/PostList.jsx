@@ -80,7 +80,9 @@ export const PostList = ({ category, title }) => {
         ← ホームに戻る
       </button>
 
-      <h1 className="pageTitle">{title}</h1>
+      <div className="postListContainer">
+        <h1 className="pageTitle">{title}</h1>
+      </div>
 
       <div className="listToolbar">
         <div className="tagFilterArea">
@@ -117,28 +119,30 @@ export const PostList = ({ category, title }) => {
         </div>
       </div>
 
-      {filteredPosts.map((post) => (
-        // PostCardコンポーネントをクリックしたときの挙動
-        <PostCard
-          key={post.id}
-          post={post}
-          onClick={() =>
-            navigate(
-              post.category === "study"
-                ? `/study/${post.id}`
-                : `/works/${post.id}`,
-              {
-                state: {
-                  from: category === "all" ? "/posts" : `/${post.category}`,
+      <div className="postCardGrid">
+        {filteredPosts.map((post) => (
+          // PostCardコンポーネントをクリックしたときの挙動
+          <PostCard
+            key={post.id}
+            post={post}
+            onClick={() =>
+              navigate(
+                post.category === "study"
+                  ? `/study/${post.id}`
+                  : `/works/${post.id}`,
+                {
+                  state: {
+                    from: category === "all" ? "/posts" : `/${post.category}`,
+                  },
                 },
-              },
-            )
-          }
-          // 削除・編集ボタンの挙動
-          onDelete={handleDelete}
-          onEdit={(post) => navigate(`/editpost/${post.id}`)}
-        />
-      ))}
+              )
+            }
+            // 削除・編集ボタンの挙動
+            onDelete={handleDelete}
+            onEdit={(post) => navigate(`/editpost/${post.id}`)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
