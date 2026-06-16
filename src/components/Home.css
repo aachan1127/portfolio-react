@@ -26,6 +26,36 @@
   flex-wrap: wrap;
 }
 
+.sectionLinkButton {
+  padding: 12px 60px;
+  border: 1px solid #5f5757;
+  border-radius: 999px;
+  background-color: transparent;
+  color: #5f5757;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+.sectionLinkButton:hover {
+  background-color: #5f5757;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.sectionLinkButtonPrimary {
+  background-color: #5f5757;
+  color: #fff;
+}
+
+.sectionLinkButtonPrimary:hover {
+  background-color: #1a1a1a;
+}
+
 
 /* ---------- 管理者用ナビゲーションボタン ---------- */
 .adminLinks {
@@ -56,15 +86,6 @@
   background-color: #5f5757;
   color: #fff;
   transform: translateY(-2px);
-}
-
-.adminNavButtonPrimary {
-  background-color: #5f5757;
-  color: #fff;
-}
-
-.adminNavButtonPrimary:hover {
-  background-color: #111;
 }
 
 /* ---------- Hero セクション ---------- */
@@ -250,9 +271,9 @@
 .studyMainImage {
   width: 100%;
   aspect-ratio: 3 / 2;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  background: #ddd;
+  background: #f6f2ee;
 }
 
 /* タイトル */
@@ -274,9 +295,9 @@
 .studySubImage {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  background: #ddd;
+  background: #f6f2ee;
 }
 
 /* その他 */
@@ -300,9 +321,9 @@
 .studyOtherPlaceholder {
   width: 100%;
   aspect-ratio: 3 / 2;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  background: #ddd;
+  background: #f6f2ee;
 }
 
 .studyOtherPlaceholder {
@@ -368,14 +389,14 @@
 .worksSubImage {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
-  background: #ddd;
+  background: #f6f2ee;
 }
 
 .worksPostTitle {
-  font-size: 28px;
-  margin: 24px 0 8px;
+  font-size: 20px;
+  margin-top: 24px;
 }
 
 /* ---------- Skills セクション ---------- */

@@ -130,9 +130,7 @@ export const PostList = ({ category, title }) => {
         <div className="toolbarRight">
           <span className="resultCount">{sortedPosts.length}件</span>
 
-          <div
-            className={`sortControl ${sortOrder === "old" ? "isOld" : "isNew"}`}
-          >
+          <div className={`sortControl ${sortOrder === "old" ? "isOld" : ""}`}>
             <button
               className={`sortSegment ${sortOrder === "new" ? "isActive" : ""}`}
               type="button"
@@ -160,9 +158,12 @@ export const PostList = ({ category, title }) => {
             post={post}
             onClick={() =>
               navigate(
-                post.category === "study"
-                  ? `/study/${post.id}`
-                  : `/works/${post.id}`,
+                category === "all"
+                  ? `/posts/${post.id}`
+                  : post.category === "study"
+                    ? `/study/${post.id}`
+                    : `/works/${post.id}`,
+
                 {
                   state: {
                     from: category === "all" ? "/posts" : `/${post.category}`,

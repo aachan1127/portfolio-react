@@ -11,6 +11,7 @@ import {
   faFigma,
 } from "@fortawesome/free-brands-svg-icons";
 import AdminButton from "./Button/AdminButton";
+import ThumbnailLink from "./ThumbnailLink";
 
 export const Home = () => {
   // stateを用意
@@ -324,10 +325,12 @@ export const Home = () => {
           <div className="studyMain">
             {mainStudyPost ? (
               <>
-                <img
+                <ThumbnailLink
+                  to={`/posts/${mainStudyPost.id}`}
+                  state={{ from: "/" }}
                   src={mainStudyPost.thumbnailUrl}
-                  alt={mainStudyPost.title}
-                  className="studyMainImage"
+                  title={mainStudyPost.title}
+                  imageClassName="studyMainImage"
                 />
 
                 <p className="studyPostTitle">{mainStudyPost.title}</p>
@@ -356,10 +359,12 @@ export const Home = () => {
             <div className="studySub">
               {subStudyPost ? (
                 <>
-                  <img
+                  <ThumbnailLink
+                    to={`/posts/${subStudyPost.id}`}
+                    state={{ from: "/" }}
                     src={subStudyPost.thumbnailUrl}
-                    alt={subStudyPost.title}
-                    className="studySubImage"
+                    title={subStudyPost.title}
+                    imageClassName="studySubImage"
                   />
 
                   <p className="studyPostTitle">{subStudyPost.title}</p>
@@ -399,10 +404,12 @@ export const Home = () => {
 
                       {post ? (
                         <>
-                          <img
+                          <ThumbnailLink
+                            to={`/posts/${post.id}`}
+                            state={{ from: "/" }}
                             src={post.thumbnailUrl}
-                            alt={post.title}
-                            className="studyOtherImage"
+                            title={post.title}
+                            imageClassName="studyOtherImage"
                           />
                           <p>{post.title}</p>
                         </>
@@ -467,8 +474,12 @@ export const Home = () => {
         </div>
 
         <div className="sectionButtonArea">
-          <button type="button" onClick={() => navigate("/study")}>
-            Study一覧を見る
+          <button
+            className="sectionLinkButton"
+            type="button"
+            onClick={() => navigate("/study")}
+          >
+            Study一覧
           </button>
         </div>
       </section>
@@ -482,13 +493,15 @@ export const Home = () => {
           <div className="worksMain">
             {mainWorksPost ? (
               <>
-                <img
+                <ThumbnailLink
+                  to={`/posts/${mainWorksPost.id}`}
+                  state={{ from: "/" }}
                   src={mainWorksPost.thumbnailUrl}
-                  alt={mainWorksPost.title}
-                  className="worksMainImage"
+                  title={mainWorksPost.title}
+                  imageClassName="worksMainImage"
                 />
 
-                <p>{mainWorksPost.title}</p>
+                <p className="worksPostTitle">{mainWorksPost.title}</p>
                 <TagList tags={mainWorksPost.tags} />
               </>
             ) : (
@@ -513,13 +526,15 @@ export const Home = () => {
           <div className="worksSub">
             {subWorksPost ? (
               <>
-                <img
+                <ThumbnailLink
+                  to={`/posts/${subWorksPost.id}`}
+                  state={{ from: "/" }}
                   src={subWorksPost.thumbnailUrl}
-                  alt={subWorksPost.title}
-                  className="worksSubImage"
+                  title={subWorksPost.title}
+                  imageClassName="worksSubImage"
                 />
 
-                <p>{subWorksPost.title}</p>
+                <p className="worksPostTitle">{subWorksPost.title}</p>
                 <TagList tags={subWorksPost.tags} />
               </>
             ) : (
@@ -542,14 +557,22 @@ export const Home = () => {
         </div>
 
         <div className="sectionButtonArea">
-          <button type="button" onClick={() => navigate("/works")}>
-            Works一覧を見る
+          <button
+            className="sectionLinkButton"
+            type="button"
+            onClick={() => navigate("/works")}
+          >
+            Works一覧
           </button>
         </div>
 
         <div className="sectionButtonArea">
-          <button type="button" onClick={() => navigate("/posts")}>
-            全投稿一覧を見る
+          <button
+            className="sectionLinkButton sectionLinkButtonPrimary"
+            type="button"
+            onClick={() => navigate("/posts")}
+          >
+            全投稿一覧
           </button>
         </div>
       </section>

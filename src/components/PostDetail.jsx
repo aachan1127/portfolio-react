@@ -11,7 +11,9 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const backPath = location.state?.from || defaultBackPath;
+  const backPath = location.state?.from || defaultBackPath || "/";
+  const backButtonLabel =
+    backLabel || (backPath === "/posts" ? "全件一覧に戻る" : "ホームに戻る");
 
   useEffect(() => {
     const getPost = async () => {
@@ -36,10 +38,10 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
   return (
     <div>
       <button type="button" onClick={() => navigate(backPath)}>
-        {backPath === "/posts" ? "全件一覧に戻る" : backLabel}
+        {backButtonLabel}
       </button>
 
-      <h1>{title}</h1>
+      <h1>{title || post.title}</h1>
 
       <p>投稿ID: {id}</p>
       <p>{post.title}</p>
@@ -71,3 +73,5 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
     </div>
   );
 };
+
+export default PostDetail;

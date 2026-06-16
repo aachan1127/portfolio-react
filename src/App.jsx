@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import CreatePost from "./components/CreatePost";
 import Login from "./components/Login";
@@ -13,8 +13,8 @@ import WorksList from "./components/WorksList";
 import WorksDetail from "./components/WorksDetail";
 import AllPosts from "./components/AllPosts";
 import { SkillPosts } from "./components/SkillPosts";
-import  SkillFormPage  from "./components/SkillFormPage";
-
+import SkillFormPage from "./components/SkillFormPage";
+import PostDetail from "./components/PostDetail";
 
 function App() {
   // ↓ リロードしてもログイン状態を管理するためのstate
@@ -43,6 +43,7 @@ function App() {
           path="/skill-categories/:categoryId/skills/new"
           element={<SkillFormPage />}
         />
+        <Route path="/posts/:id" element={<PostDetail />} />
       </Routes>
     </Router>
   );
