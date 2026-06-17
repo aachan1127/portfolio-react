@@ -36,10 +36,13 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
 
       {/* 投稿のタイトルと本文 */}
       <div className="postBody">
-        <p className="postMeta">
-          {post.category?.toUpperCase()} ・{" "}
-          {new Date(post.createdAt?.seconds * 1000).toLocaleDateString()}
-        </p>
+          <p className="postMeta">
+            {post.category?.toUpperCase()} ・{" "}
+            {post.workDate
+              ? post.workDate.replaceAll("-", "/")
+              : "作成日未設定"}
+          </p>
+
         <h3 className="postTitle">{post.title}</h3>
         {/* タグ表示 */}
         <TagList tags={post.tags} />

@@ -73,8 +73,8 @@ export const PostList = ({ category, title }) => {
 
   // 並べ替え
   const sortedPosts = [...filteredPosts].sort((a, b) => {
-    const aTime = a.createdAt?.seconds || 0;
-    const bTime = b.createdAt?.seconds || 0;
+    const aTime = a.workDate ? new Date(a.workDate).getTime() : 0;
+    const bTime = b.workDate ? new Date(b.workDate).getTime() : 0;
 
     return sortOrder === "new" ? bTime - aTime : aTime - bTime;
   });
@@ -173,7 +173,13 @@ export const PostList = ({ category, title }) => {
             }
             // 削除・編集ボタンの挙動
             onDelete={handleDelete}
-            onEdit={(post) => navigate(`/editpost/${post.id}`)}
+            onEdit={(post) =>
+              navigate(`/editpost/${post.id}`, {
+                state: {
+                  from: category === "all" ? "/posts" : `/${post.category}`,
+                },
+              })
+            }
           />
         ))}
       </div>

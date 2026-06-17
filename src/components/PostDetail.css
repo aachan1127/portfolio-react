@@ -1,0 +1,285 @@
+.postDetailPage {
+    width: 100%;
+    padding: 20px;
+}
+.postDetailLoading {
+    text-align: center;
+    color: #8a827c;
+    padding: 60px 0;
+}
+
+/* カード（中央1カラム） */
+.postDetailCard {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #eae5e0;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -42px rgba(80, 72, 68, 0.55);
+    padding: 30px 44px 50px;
+}
+@media (max-width: 640px) {
+    .postDetailCard { padding: 24px 20px 36px; }
+}
+
+/* 戻る */
+.detailBackButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    border: none;
+    background: transparent;
+    color: #5f5757;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color .25s ease;
+}
+.detailBackButton:hover {
+    background: #f4efe9;
+}
+
+/* 見出し */
+.detailEyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    color: #8a5a3c;
+    margin: 0 0 14px;
+}
+.detailTitle {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 1.16;
+    color: #2a2521;
+    margin: 0 0 14px;
+}
+
+/* URLボタン ＋ 編集・削除の行 */
+.detailActionRow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 0 28px;
+    margin: 18px 0 28px;
+    border-top: 1px solid #efe9e3;
+    border-bottom: 1px solid #efe9e3;
+}
+.detailActions {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.detailSiteButton,
+.detailGithubButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 24px;
+    border-radius: 999px;
+    background: #8a5a3c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 12px 24px -12px rgba(138, 90, 60, .85);
+    transition: background .2s ease, transform .2s ease;
+}
+
+.detailSiteButton:hover,
+.detailGithubButton:hover {
+    background: #724831;
+    transform: translateY(-2px);
+}
+
+.detailEditButton {
+    padding: 9px 18px;
+    border: 1px solid #d8cabb;
+    border-radius: 999px;
+    background: #f4efe9;
+    color: #5f5757;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+.detailEditButton:hover {
+    background: #8a5a3c;
+    color: #fff;
+    border-color: #8a5a3c;
+}
+.detailDeleteButton {
+    padding: 9px 18px;
+    border: 1px solid #b23b3b;
+    border-radius: 999px;
+    background: #fff;
+    color: #b23b3b;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+.detailDeleteButton:hover {
+    background: #b23b3b;
+    color: #fff;
+}
+
+/* メイン画像 ＋ サムネイル */
+.detailFigure {
+    margin: 0 0 34px;
+}
+.detailMainImageButton {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: zoom-in;
+    background: #f3ede6;
+    aspect-ratio: 16 / 10;
+}
+.detailMainImageButton img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.detailThumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+}
+.detailThumb {
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f3ede6;
+    aspect-ratio: 4 / 3;
+    outline: 2.5px solid transparent;
+    outline-offset: 2px;
+    opacity: .7;
+    transition: opacity .2s ease, outline-color .2s ease;
+}
+.detailThumb:hover {
+    opacity: 1;
+}
+.detailThumb.isActive {
+    opacity: 1;
+    outline-color: #8a5a3c;
+}
+.detailThumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* 動画 */
+.detailVideo {
+    margin-bottom: 34px;
+}
+.detailVideo iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    border-radius: 12px;
+}
+
+/* 説明（長文・改行保持。将来 Markdown 描画に差し替え予定の場所） */
+.detailDescription {
+    font-size: 16px;
+    line-height: 2;
+    color: #4a443f;
+    white-space: pre-wrap;
+}
+
+/* ライトボックス */
+.lightboxOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(38, 33, 30, .84);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    z-index: 60;
+    cursor: zoom-out;
+}
+.lightboxImage {
+    max-width: 92%;
+    max-height: 88%;
+    border-radius: 10px;
+    box-shadow: 0 30px 90px -20px rgba(0, 0, 0, .7);
+    background: #fff;
+}
+.lightboxClose {
+    position: fixed;
+    top: 24px;
+    right: 28px;
+    width: 46px;
+    height: 46px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .16);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+}
+.lightboxClose:hover {
+    background: rgba(255, 255, 255, .30);
+}
+
+.lightboxNav {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 54px;
+    height: 54px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .16);
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background .2s ease, transform .2s ease;
+}
+
+.lightboxNav:hover {
+    background: rgba(255, 255, 255, .30);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.lightboxPrev {
+    left: 28px;
+}
+
+.lightboxNext {
+    right: 28px;
+}
+
+/* アクセシビリティ：フォーカス可視化 */
+.detailBackButton:focus-visible,
+.detailSiteButton:focus-visible,
+.detailGithubButton:focus-visible,
+.detailEditButton:focus-visible,
+.detailDeleteButton:focus-visible,
+.detailMainImageButton:focus-visible,
+.detailThumb:focus-visible,
+.lightboxClose:focus-visible,
+.lightboxNav:focus-visible {
+    outline: 3px solid #8a5a3c;
+    outline-offset: 2px;
+}

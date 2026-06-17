@@ -27,6 +27,9 @@ export const CreatePost = ({ isAuth }) => {
   const [displayType, setDisplayType] = useState("list");
   const [tags, setTags] = useState([]);
   const [siteUrl, setSiteUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
+  const [descriptionSource, setDescriptionSource] = useState("manual");
+  const [workDate, setWorkDate] = useState("");
 
   useEffect(() => {
     selectedImagesRef.current = selectedImages;
@@ -101,6 +104,11 @@ export const CreatePost = ({ isAuth }) => {
   const createPost = async () => {
     if (!title.trim()) {
       alert("タイトルを入力してね");
+      return;
+    }
+
+    if (!workDate) {
+      alert("作成日を入力してね");
       return;
     }
 
@@ -204,8 +212,11 @@ export const CreatePost = ({ isAuth }) => {
       await addDoc(postsCollectionRef, {
         title: title,
         postText: postText,
+        workDate: workDate,
         imageUrls: imageUrls,
         siteUrl: siteUrl.trim(),
+        githubUrl: githubUrl.trim(),
+        descriptionSource: descriptionSource,
         // .trim()で前後の空白を自動で削除する
         videoUrl: videoUrl.trim(),
         imagePaths: imagePaths,
@@ -264,6 +275,15 @@ export const CreatePost = ({ isAuth }) => {
         </div>
 
         <div className="inputPost">
+          <div>作成日</div>
+          <input
+            type="date"
+            value={workDate}
+            onChange={(e) => setWorkDate(e.target.value)}
+          />
+        </div>
+
+        <div className="inputPost">
           <div>説明</div>
           <textarea
             placeholder="説明を記入"
@@ -287,6 +307,26 @@ export const CreatePost = ({ isAuth }) => {
             placeholder="公開URLを記入（例: https://...）"
             onChange={(e) => setSiteUrl(e.target.value)}
           />
+        </div>
+
+        <div className="inputPost">
+          <div>GitHub URL（任意）</div>
+          <input
+            type="text"
+            placeholder="GitHub URLを記入（例: https://github.com/...）"
+            onChange={(e) => setGithubUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="inputPost">
+          <div>説明文の表示元</div>
+          <select
+            value={descriptionSource}
+            onChange={(e) => setDescriptionSource(e.target.value)}
+          >
+            <option value="manual">入力した説明文を表示</option>
+            <option value="github">GitHubのREADMEを表示</option>
+          </select>
         </div>
 
         <div className="inputPost">

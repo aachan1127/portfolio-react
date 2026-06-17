@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./PostForm.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   collection,
   doc,
@@ -32,6 +32,9 @@ const EditPost = () => {
   const [displayType, setDisplayType] = useState("list");
   const [tags, setTags] = useState([]);
   const [siteUrl, setSiteUrl] = useState("");
+  const [githubUrl, setGithubUrl] = useState("");
+  const [descriptionSource, setDescriptionSource] = useState("manual");
+  const [workDate, setWorkDate] = useState("");
 
   useEffect(() => {
     const getPost = async () => {
@@ -47,7 +50,10 @@ const EditPost = () => {
           // 取得したデータをstateにセットする
           setTitle(data.title);
           setPostText(data.postText);
+          setWorkDate(data.workDate || "");
           setSiteUrl(data.siteUrl || "");
+          setGithubUrl(data.githubUrl || "");
+          setDescriptionSource(data.descriptionSource || "manual");
           setCategory(data.category || "study");
           setTags(data.tags || []);
 
@@ -164,10 +170,17 @@ const EditPost = () => {
 
   // ↓ 更新ボタン押した時の処理
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnPath = location.state?.from || "/";
 
   const updatePost = async () => {
     if (!title.trim()) {
       alert("タイトルを入力してね");
+      return;
+    }
+
+    if (!workDate) {
+      alert("作成日を入力してね");
       return;
     }
 
@@ -270,6 +283,7 @@ const EditPost = () => {
       await updateDoc(docRef, {
         title: title,
         postText: postText,
+        workDate: workDate,
         category: category,
         tags: tags,
         studyDisplayRank: category === "study" ? displayRank : 7,
@@ -278,6 +292,8 @@ const EditPost = () => {
         imagePaths: finalImagePaths,
         imageFileNames: finalImageFileNames,
         siteUrl: siteUrl.trim(),
+        githubUrl: githubUrl.trim(),
+        descriptionSource: descriptionSource,
         updatedAt: serverTimestamp(),
       });
 
@@ -293,7 +309,7 @@ const EditPost = () => {
         URL.revokeObjectURL(image.previewUrl);
       });
 
-      navigate("/");
+      navigate(returnPath);
     } catch (error) {
       console.error("更新エラー:", error);
       alert("更新に失敗しました");
@@ -318,6 +334,15 @@ const EditPost = () => {
             placeholder="タイトルを記入"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+
+        <div className="inputPost">
+          <div>作成日</div>
+          <input
+            type="date"
+            value={workDate}
+            onChange={(e) => setWorkDate(e.target.value)}
           />
         </div>
 
@@ -457,6 +482,27 @@ const EditPost = () => {
             placeholder="公開URLを記入（例: https://...）"
             onChange={(e) => setSiteUrl(e.target.value)}
           />
+        </div>
+
+        <div className="inputPost">
+          <div>GitHub URL（任意）</div>
+          <input
+            type="text"
+            value={githubUrl}
+            placeholder="GitHub URLを記入（例: https://github.com/...）"
+            onChange={(e) => setGithubUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="inputPost">
+          <div>説明文の表示元</div>
+          <select
+            value={descriptionSource}
+            onChange={(e) => setDescriptionSource(e.target.value)}
+          >
+            <option value="manual">入力した説明文を表示</option>
+            <option value="github">GitHubのREADMEを表示</option>
+          </select>
         </div>
 
         <button
