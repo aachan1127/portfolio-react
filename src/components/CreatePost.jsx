@@ -26,6 +26,7 @@ export const CreatePost = ({ isAuth }) => {
   const [category, setCategory] = useState("study");
   const [displayType, setDisplayType] = useState("list");
   const [tags, setTags] = useState([]);
+  const [siteUrl, setSiteUrl] = useState("");
 
   useEffect(() => {
     selectedImagesRef.current = selectedImages;
@@ -183,7 +184,7 @@ export const CreatePost = ({ isAuth }) => {
             1: "メイン",
             2: "サブ",
             3: "その他1番目",
-            4: "その他2番目"
+            4: "その他2番目",
           };
 
           const isConfirmed = window.confirm(
@@ -204,6 +205,7 @@ export const CreatePost = ({ isAuth }) => {
         title: title,
         postText: postText,
         imageUrls: imageUrls,
+        siteUrl: siteUrl.trim(),
         // .trim()で前後の空白を自動で削除する
         videoUrl: videoUrl.trim(),
         imagePaths: imagePaths,
@@ -275,6 +277,15 @@ export const CreatePost = ({ isAuth }) => {
             type="text"
             placeholder="動画URLを記入"
             onChange={(e) => setVideoUrl(e.target.value)}
+          />
+        </div>
+
+        <div className="inputPost">
+          <div>サイトURL（任意）</div>
+          <input
+            type="text"
+            placeholder="公開URLを記入（例: https://...）"
+            onChange={(e) => setSiteUrl(e.target.value)}
           />
         </div>
 

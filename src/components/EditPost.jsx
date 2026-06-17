@@ -31,6 +31,7 @@ const EditPost = () => {
   const [category, setCategory] = useState("study");
   const [displayType, setDisplayType] = useState("list");
   const [tags, setTags] = useState([]);
+  const [siteUrl, setSiteUrl] = useState("");
 
   useEffect(() => {
     const getPost = async () => {
@@ -46,6 +47,7 @@ const EditPost = () => {
           // 取得したデータをstateにセットする
           setTitle(data.title);
           setPostText(data.postText);
+          setSiteUrl(data.siteUrl || "");
           setCategory(data.category || "study");
           setTags(data.tags || []);
 
@@ -275,6 +277,7 @@ const EditPost = () => {
         imageUrls: finalImageUrls,
         imagePaths: finalImagePaths,
         imageFileNames: finalImageFileNames,
+        siteUrl: siteUrl.trim(),
         updatedAt: serverTimestamp(),
       });
 
@@ -444,6 +447,16 @@ const EditPost = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        <div className="inputPost">
+          <div>サイトURL（任意）</div>
+          <input
+            type="text"
+            value={siteUrl}
+            placeholder="公開URLを記入（例: https://...）"
+            onChange={(e) => setSiteUrl(e.target.value)}
+          />
         </div>
 
         <button
