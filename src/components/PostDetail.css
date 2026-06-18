@@ -1,6 +1,7 @@
 .postDetailPage {
     width: 100%;
     padding: 20px;
+    background: #e7e5df;
 }
 .postDetailLoading {
     text-align: center;

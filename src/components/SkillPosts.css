@@ -1,58 +1,199 @@
 .skillPostsPage {
   width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 80px 20px;
+  background: #e7e5df;
+  padding: 20px;
   box-sizing: border-box;
+  min-height: calc(100vh - 80px);
+}
+.skillPostsLoading {
+  text-align: center;
+  color: #8a827c;
+  padding: 80px 0;
 }
 
-.skillPostsTitle {
-  font-size: 40px;
+/* カード（中央1カラム） */
+.skillPostsCard {
+  max-width: 760px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #eae5e0;
+  border-radius: 18px;
+  box-shadow: 0 30px 60px -42px rgba(80, 72, 68, 0.55);
+  padding: 30px 44px 50px;
+}
+@media (max-width: 640px) {
+  .skillPostsCard { padding: 24px 20px 36px; }
+}
+
+/* 戻る */
+.skillBackButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 10px 14px;
+    margin-bottom: 20px;
+    border: none;
+    background: transparent;
+    color: #5f5757;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color .25s ease;
+}
+.skillBackButton:hover { background: #f4efe9; }
+
+/* スキル名・説明 */
+.skillPostsEyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: #8a5a3c;
+  margin: 0 0 14px;
+}
+.skillPostsName {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 46px;
   font-weight: 400;
-  margin-bottom: 40px;
+  line-height: 1.12;
+  color: #2a2521;
+  margin: 0 0 18px;
+}
+.skillPostsDesc {
+  font-size: 16px;
+  line-height: 1.95;
+  color: #4a443f;
+  margin: 0 0 28px;
 }
 
-.skillPostsIntro {
-  margin-bottom: 64px;
-  font-size: 18px;
-  line-height: 1.8;
+/* 参考作品の見出し */
+.skillPostsListHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #efe9e3;
+}
+.skillPostsListTitle {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: #2f2a27;
+  margin: 0;
+}
+.skillPostsCount {
+  font-size: 12px;
+  font-weight: 600;
+  color: #a89e96;
+}
+.skillPostsEmpty {
+  font-size: 14px;
+  color: #8a827c;
+  padding: 24px 0;
 }
 
-.relatedPostsTitle {
-  font-size: 28px;
-  font-weight: 400;
-  margin-bottom: 32px;
-}
-
+/* 作品リスト */
 .relatedPostsList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 .relatedPostItem {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 40px;
+  grid-template-columns: 220px 1fr;
+  gap: 26px;
   align-items: start;
-  margin-bottom: 56px;
+  padding: 26px 0;
+  border-bottom: 1px solid #f1ece5;
 }
-
-.skillPostThumbnail {
-  width: 100%;
+.relatedPostThumb {
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3ede6;
   aspect-ratio: 4 / 3;
+}
+.relatedPostThumb img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
-  background: #ddd;
 }
 
 .relatedPostText h3 {
-  font-size: 24px;
-  font-weight: 400;
-  margin-bottom: 16px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #2a2521;
+  margin: 2px 0 8px;
+}
+.relatedPostText p {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #5f5757;
+  margin: 0 0 14px;
+  /* 長文は3行で省略（任意） */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.relatedPostText p {
-  font-size: 16px;
-  line-height: 1.8;
+/* 作品のリンク */
+.relatedPostActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.relatedPostDetailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border: 1px solid #8a5a3c;
+  border-radius: 999px;
+  background: transparent;
+  color: #8a5a3c;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.relatedPostDetailLink:hover {
+  background: #8a5a3c;
+  color: #fff;
+}
+.relatedPostSiteLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border: 1px solid #d8cabb;
+  border-radius: 999px;
+  background: transparent;
+  color: #6e6663;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+.relatedPostSiteLink:hover {
+  border-color: #8a5a3c;
+  color: #8a5a3c;
+}
+
+.relatedPostDetailLink:focus-visible,
+.relatedPostSiteLink:focus-visible,
+.skillBackButton:focus-visible {
+  outline: 3px solid #8a5a3c;
+  outline-offset: 3px;
+}
+
+/* スマホ */
+@media (max-width: 640px) {
+  .relatedPostItem {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }

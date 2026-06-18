@@ -594,35 +594,33 @@ export const Home = () => {
 
               return (
                 <div className="skillCategory" key={category.id}>
-                  <h3 className="skillCategoryTitle">{category.name}</h3>
-
                   <div className="skillBox">
+                    <h3 className="skillCategoryTitle">{category.name}</h3>
+
                     {categorySkills.map((skill) => (
                       <div className="skillItem" key={skill.id}>
-                        {skill.iconUrl && (
-                          <img
-                            src={skill.iconUrl}
-                            alt={`${skill.name}のアイコン`}
-                            className="skillIcon"
-                          />
-                        )}
-                        {/* {auth.currentUser && (
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={(e) =>
-                              handleUploadSkillIcon(skill, e.target.files[0])
-                            }
-                          />
-                        )} */}
+                        <div className="skillIconTile">
+                          {skill.iconUrl && (
+                            <img
+                              src={skill.iconUrl}
+                              alt={`${skill.name}のアイコン`}
+                              className="skillIcon"
+                            />
+                          )}
+                        </div>
 
                         <div className="skillText">
-                          <p>{skill.description}</p>
+                          <h4 className="skillName">{skill.name}</h4>
+                          <p className="skillDesc">{skill.description}</p>
+                        </div>
+
+                        <div className="skillActions">
                           <button
                             type="button"
+                            className="skillPostsLink"
                             onClick={() => navigate(`/skills/${skill.id}`)}
                           >
-                            この技術を使った代表作品を見る
+                            参考作品を見る <span aria-hidden="true">→</span>
                           </button>
                           {auth.currentUser && (
                             <AdminButton

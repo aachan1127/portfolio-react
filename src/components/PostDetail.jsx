@@ -39,8 +39,11 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
   const [isReadmeLoading, setIsReadmeLoading] = useState(false);
 
   const backPath = location.state?.from || defaultBackPath || "/";
-  const backButtonLabel =
-    backLabel || (backPath === "/posts" ? "全件一覧に戻る" : "ホームに戻る");
+  const isFromSkill = backPath.startsWith("/skills/");
+
+  const backButtonLabel = isFromSkill
+    ? "スキル詳細に戻る"
+    : backLabel || (backPath === "/posts" ? "全件一覧に戻る" : "ホームに戻る");
 
   useEffect(() => {
     const getPost = async () => {
