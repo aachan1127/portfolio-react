@@ -7,6 +7,15 @@
   font-family: "Cormorant Garamond", serif;
 }
 
+@media (max-width: 640px) {
+  .aboutTitle,
+  .studyTitle,
+  .worksTitle,
+  .skillsTitle {
+    text-align: center;
+  }
+}
+
 .homePage {
     width: 100%;
     min-height: calc(100vh - 80px);
@@ -123,7 +132,7 @@
 .heroMessage {
   position: absolute;
   top: 45%;
-  left: 50%;
+  left: 44%;
   transform: translate(-50%, -50%);
   width: 70%;
   text-align: center;
@@ -133,6 +142,57 @@
   font-family: "Klee One", cursive;
   font-weight: 400;
   font-style: normal;
+}
+
+/* ---------- Hero レスポンシブ ---------- */
+
+/* タブレット幅：スクショのように少し重ねる */
+@media (max-width: 900px) {
+  .heroSection {
+    min-height: auto;
+    padding: 60px 20px 120px;
+  }
+
+  .heroImageArea {
+    width: 68%;
+  }
+
+  .heroMessageArea {
+    width: 62%;
+    right: 20px;
+    bottom: 40px;
+  }
+
+  .heroMessage {
+    font-size: 18px;
+  }
+}
+
+/* スマホ幅：縦並びにする */
+@media (max-width: 640px) {
+  .heroSection {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .heroImageArea {
+    width: 100%;
+  }
+
+  .heroMessageArea {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+  }
+
+  .heroMessage {
+    font-size: clamp(14px, 3.4vw, 18px);
+    line-height: 1.8;
+    width: 80%;
+  }
 }
 
 /* ---------- About セクション ---------- */
@@ -243,6 +303,122 @@
   width: 90px;
   height: 40px;
   object-fit: contain;
+}
+
+/* ---------- About レスポンシブ ---------- */
+@media (max-width: 900px) {
+  .aboutTitle {
+    font-size: 50px;
+    margin-bottom: 48px;
+  }
+  .aboutText {
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 72px;
+  }
+  .aboutProfileText h3 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 36px;
+  }
+  .aboutProfileText p {
+    font-size: 18px;
+    line-height: 1.8;
+  }
+  .aboutImageArea {
+    width: clamp(180px, 26vw, 240px);
+    flex-shrink: 0;
+  }
+  .aboutProfile {
+    gap: 45px;
+  }
+}
+
+@media (max-width: 640px) {
+  .aboutSection {
+    padding: 20px;
+  }
+
+  .aboutTitle {
+    font-size: 44px;
+    margin-bottom: 48px;
+  }
+
+  .aboutText {
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 72px;
+  }
+
+  .aboutHistoryItem {
+    display: block;
+    padding: 22px 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid #e3ddd5;
+  }
+
+  .aboutHistoryItem:first-child {
+    border-top: 1px solid #e3ddd5;
+  }
+
+  .aboutHistoryYear {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .aboutProfile {
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .aboutImageArea {
+    width: 45%;
+    max-width: 180px;
+  }
+
+  .aboutProfileText h3 {
+    font-size: 36px;
+    margin-bottom: 36px;
+  }
+
+  .aboutProfileText h3 span {
+    display: block;
+    font-size: 18px;
+    margin-left: 0;
+    margin-top: 12px;
+  }
+
+  .aboutProfileText p {
+    font-size: 18px;
+    line-height: 1.9;
+  }
+
+  .socialLinks {
+    justify-content: center;
+    gap: 28px;
+    margin-top: 48px;
+  }
+
+  .socialLinks a {
+    width: 58px;
+    height: 58px;
+    border: 1px solid #d8cec3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fffaf5;
+  }
+
+  .socialIcon {
+    font-size: 24px;
+  }
+
+  .connpassIcon {
+    width: 34px;
+    height: 24px;
+  }
 }
 /* ---------- Study セクション ---------- */
 .studySection {
@@ -362,6 +538,71 @@
     height: auto;
 }
 
+/* ---------- Study レスポンシブ ---------- */
+@media (max-width: 900px) {
+  .studyBottom {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .studySection {
+    padding: 20px;
+  }
+
+  .studyTitle {
+    font-size: 44px;
+    margin-bottom: 48px;
+  }
+
+  .studyContent {
+    max-width: 100%;
+  }
+
+  .studyMain {
+    margin-bottom: 48px;
+  }
+
+  .studyPostTitle {
+    font-size: 20px;
+    margin: 18px 0 8px;
+  }
+
+  .studyBottom {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    margin-top: 0;
+  }
+
+  .studySub {
+    width: 100%;
+  }
+
+  .studyOthersTitle {
+    font-size: 18px;
+    margin: 0 0 20px;
+  }
+
+  .studyOthersGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .studyOtherItem p {
+    font-size: 18px;
+    margin-top: 14px;
+  }
+
+  .studyMainImage,
+  .studySubImage,
+  .studyOtherImage,
+  .studyOtherPlaceholder {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
+}
+
 /* ---------- Works セクション ---------- */
 .worksSection {
   width: 100%;
@@ -397,6 +638,41 @@
 .worksPostTitle {
   font-size: 20px;
   margin-top: 24px;
+}
+
+/* ---------- Works レスポンシブ ---------- */
+@media (max-width: 900px) {
+  .worksContent {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .worksSection {
+    padding: 20px;
+  }
+
+  .worksTitle {
+    font-size: 44px;
+    margin-bottom: 48px;
+  }
+
+  .worksContent {
+    max-width: 100%;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .worksPostTitle {
+    font-size: 18px;
+    margin-top: 18px;
+  }
+
+  .worksMainImage,
+  .worksSubImage {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+  }
 }
 
 /* ---------- Skills セクション ---------- */
@@ -514,10 +790,59 @@
   outline-offset: 3px;
 }
 
-/* スマホ */
+/* ---------- Skills レスポンシブ ---------- */
 @media (max-width: 640px) {
-  .skillBox { padding: 28px 22px; }
-  .skillItem { flex-direction: column; align-items: flex-start; gap: 16px; }
-  .skillActions { align-self: stretch; align-items: stretch; }
-  .skillPostsLink { justify-content: center; }
+  .skillsSection {
+    padding: 20px;
+  }
+
+  .skillsTitle {
+    font-size: 44px;
+    margin-bottom: 48px;
+  }
+
+  .skillBox {
+    padding: 32px 22px;
+  }
+
+  .skillCategoryTitle {
+    font-size: 20px;
+    margin-bottom: 28px;
+  }
+
+  .skillItem {
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    column-gap: 20px;
+    row-gap: 22px;
+    align-items: start;
+  }
+
+  .skillIcon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .skillName {
+    font-size: 18px;
+    margin: 0 0 12px;
+  }
+
+  .skillDesc {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .skillActions {
+    grid-column: 1 / -1;
+    align-self: stretch;
+    align-items: stretch;
+  }
+
+  .skillPostsLink {
+    justify-content: center;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 12px;
+  }
 }
