@@ -21,6 +21,7 @@
   max-width: 1160px;
   margin: 0 auto;
   padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .pageTitle {
@@ -37,6 +38,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  box-sizing: border-box;
   max-width: 1160px;
   padding-bottom: 22px;
   margin-bottom: 28px;
@@ -50,22 +52,14 @@
 
 .postCardGrid {
   width: 100%;
+  box-sizing: border-box;
   max-width: 1160px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   align-items: stretch;
 }
-@media (max-width: 1024px) {
-  .postCardGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 640px) {
-  .postCardGrid {
-    grid-template-columns: 1fr;
-  }
-}
+
 
 /* 絞り込みチップ */
 .tagFilterButton {
@@ -80,6 +74,7 @@
   cursor: pointer;
   transition: transform .2s ease, background-color .2s ease, border-color .2s ease;
 }
+
 .tagFilterButton:hover {
   transform: translateY(-2px);
   background: #f4efe9;
@@ -152,4 +147,28 @@
 .backButton:focus-visible {
   outline: 3px solid #8a5a3c;
   outline-offset: 2px;
+}
+
+
+@media (max-width: 1024px) {
+  .postCardGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .pageTitle {
+    font-size: 44px;
+  }
+  .postCardGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .tagFilterButton {
+    padding: 6px 10px;
+}
+
+.sortSegment {
+  padding: 6px 16px;
+}
 }

@@ -55,7 +55,7 @@
 
 .siteHeader.isScrolled {
   align-items: center;
-  padding: 12px 60px;
+  padding: 16px 24px;
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
 }
@@ -77,7 +77,7 @@
 
 .siteHeader.isSubPageHeader {
   align-items: center;
-  padding: 12px 60px;
+  padding: 16px 24px;
   background-color: #f5f5f5;
 }
 

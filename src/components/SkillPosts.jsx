@@ -85,7 +85,8 @@ export const SkillPosts = () => {
                 </div>
                 <div className="relatedPostText">
                   <h3>{post.title}</h3>
-                  <p>{post.postText}</p>
+                  {/* 作品の説明文は、一覧では一旦表示させないようにする */}
+                  {/* <p>{post.postText}</p> */}
                   <div className="relatedPostActions">
                     <button
                       type="button"

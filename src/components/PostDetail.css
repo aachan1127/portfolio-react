@@ -1,8 +1,11 @@
 .postDetailPage {
     width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
     padding: 20px;
     background: #e7e5df;
 }
+
 .postDetailLoading {
     text-align: center;
     color: #8a827c;
@@ -11,16 +14,15 @@
 
 /* カード（中央1カラム） */
 .postDetailCard {
+    width: 100%;
     max-width: 760px;
+    box-sizing: border-box;
     margin: 0 auto;
     background: #fff;
     border: 1px solid #eae5e0;
     border-radius: 18px;
     box-shadow: 0 30px 60px -42px rgba(80, 72, 68, 0.55);
     padding: 30px 44px 50px;
-}
-@media (max-width: 640px) {
-    .postDetailCard { padding: 24px 20px 36px; }
 }
 
 /* 戻る */
@@ -283,4 +285,102 @@
 .lightboxNav:focus-visible {
     outline: 3px solid #8a5a3c;
     outline-offset: 2px;
+}
+
+.markdownBody h1 {
+    font-size: clamp(24px, 4vw, 40px);
+}
+
+.markdownBody h2 {
+    font-size: clamp(22px, 3vw, 30px);
+}
+
+.markdownBody h3 {
+    font-size: clamp(18px, 2.5vw, 24px);
+}
+/* ----------  タブレットレスポンシブ ------------- */
+@media (max-width: 900px) {
+    .postDetailPage {
+        padding: 18px;
+    }
+
+    .postDetailCard {
+        padding: 26px 22px 38px;
+    }
+
+    .detailTitle {
+        font-size: 26px;
+    }
+    .h1 {
+        font-size: 18px;
+    }
+    .detailSiteButton, .detailGithubButton {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    .detailEditButton, .detailDeleteButton {
+        padding: 4px 12px;
+    }
+    .detailActionRow {
+        padding: 14px 0 14px;
+    }
+}
+
+/* ----------  スマホレスポンシブ ------------- */
+@media (max-width: 640px) {
+    .postDetailPage {
+        padding: 16px;
+    }
+
+    .postDetailCard {
+        padding: 24px 20px 36px;
+    }
+
+    .detailTitle {
+        font-size: 24px;
+    }
+    .h1 {
+        font-size: 16px;
+    }
+    .detailSiteButton, .detailGithubButton {
+        padding: 10px 20px;
+    }
+    .detailEditButton, .detailDeleteButton {
+        padding: 4px 12px;
+    }
+
+    .lightboxOverlay {
+        padding: 72px 20px 96px;
+    }
+
+    .lightboxImage {
+        max-width: 100%;
+        max-height: 72vh;
+    }
+
+    .lightboxNav {
+        top: auto;
+        bottom: 28px;
+        transform: none;
+        width: auto;
+        height: auto;
+        border-radius: 0;
+        background: transparent;
+        backdrop-filter: none;
+        font-size: 32px;
+        color: #fff;
+    }
+
+    .lightboxPrev {
+        left: 32%;
+    }
+
+    .lightboxNext {
+        right: 32%;
+    }
+
+    .lightboxNav:hover {
+        background: transparent;
+        transform: none;
+    }
 }
