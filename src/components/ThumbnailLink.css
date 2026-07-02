@@ -1,29 +1,40 @@
-/* ---------- クリックできるサムネイル ---------- */
-.thumbLink {
+.thumbnailLink {
   display: block;
-  text-decoration: none;
   color: inherit;
-  /* border-radius: 12px; */
+  text-decoration: none;
+  pointer-events: none;
 }
 
-.thumbFrame {
+/* ↓サムネイルとタイトルの枠以外をクリックしても画面遷移しないようにする */
+.thumbnailThumbFrame,
+.thumbnailLink h3 {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.thumbnailInner {
+  display: inline-block;
+  width: 100%;
+}
+
+.thumbnailLink:focus-visible {
+  outline: 3px solid #8a5a3c;
+  outline-offset: 4px;
+}
+
+/* サムネイル枠 */
+.thumbnailThumbFrame {
   position: relative;
   display: block;
-  /* border-radius: 12px; */
-  overflow: hidden; /* ズームと覆いを角丸で切り抜く */
+  overflow: hidden;
 }
 
-/* 画像がそっと拡大（任意。なくてもOK） */
-.thumbFrame img {
+.thumbnailThumbFrame img {
   transition: transform 0.55s cubic-bezier(0.2, 0, 0.2, 1);
 }
-.thumbLink:hover .thumbFrame img,
-.thumbLink:focus-visible .thumbFrame img {
-  transform: scale(1.06);
-}
 
-/* 半透明の覆い */
-.thumbVeil {
+/* オーバーレイ */
+.thumbnailVeil {
   position: absolute;
   inset: 0;
   display: flex;
@@ -33,13 +44,8 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-.thumbLink:hover .thumbVeil,
-.thumbLink:focus-visible .thumbVeil {
-  opacity: 1;
-}
 
-/* 「詳細を見る →」ラベル */
-.thumbLabel {
+.thumbnailLabel {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -53,27 +59,57 @@
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
-.thumbLink:hover .thumbLabel,
-.thumbLink:focus-visible .thumbLabel {
+
+/* タイトル下線 */
+.thumbnailLink h3 {
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 6px;
+  margin-bottom: -6px;
+  background-image: linear-gradient(#5f5757, #5f5757);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0 1px;
+  transition: background-size 0.5s ease;
+}
+
+/* 画像にホバーした時 */
+.thumbnailLink:has(.thumbnailThumbFrame:hover) .thumbnailThumbFrame img,
+.thumbnailLink:focus-visible .thumbnailThumbFrame img {
+  transform: scale(1.06);
+}
+
+.thumbnailLink:has(.thumbnailThumbFrame:hover) .thumbnailVeil,
+.thumbnailLink:focus-visible .thumbnailVeil {
+  opacity: 1;
+}
+
+.thumbnailLink:has(.thumbnailThumbFrame:hover) .thumbnailLabel,
+.thumbnailLink:focus-visible .thumbnailLabel {
   transform: translateY(0);
   opacity: 1;
 }
 
-/* キーボード操作のフォーカス枠（AA） */
-.thumbLink:focus-visible {
-  outline: 3px solid #8a5a3c;
-  outline-offset: 3px;
+.thumbnailLink:has(.thumbnailThumbFrame:hover) h3,
+.thumbnailLink:focus-visible h3 {
+  background-size: 100% 1px;
 }
 
-/* 動きが苦手な人への配慮 */
-@media (prefers-reduced-motion: reduce) {
-  .thumbFrame img,
-  .thumbVeil,
-  .thumbLabel {
-    transition: none;
-  }
-  .thumbLink:hover .thumbFrame img,
-  .thumbLink:focus-visible .thumbFrame img {
-    transform: none;
-  }
+/* タイトルにホバーした時 */
+.thumbnailLink:has(h3:hover) .thumbnailThumbFrame img {
+  transform: scale(1.06);
+}
+
+.thumbnailLink:has(h3:hover) .thumbnailVeil {
+  opacity: 1;
+}
+
+.thumbnailLink:has(h3:hover) .thumbnailLabel {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.thumbnailLink h3:hover {
+  background-size: 100% 1px;
 }

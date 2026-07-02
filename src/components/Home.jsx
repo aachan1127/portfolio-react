@@ -189,8 +189,9 @@ export const Home = () => {
 
   // JSXで表示する
   return (
-    <div className="homePage">
+    <main className="homePage">
       <section id="hero" className="heroSection">
+        <h1 className="visuallyHidden">山本明音のポートフォリオ</h1>
         <div className="heroImageArea">
           <img
             src="/akane_photo.JPG"
@@ -269,11 +270,12 @@ export const Home = () => {
                 href="https://github.com/aachan1127"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="GitHubを新しいタブで開く"
               >
                 <FontAwesomeIcon
                   icon={faGithub}
                   className="socialIcon"
-                  aria-label="GitHubを新しいタブで開く"
+                  aria-hidden="true"
                 />
               </a>
 
@@ -281,11 +283,12 @@ export const Home = () => {
                 href="https://x.com/aachan_y27"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Xを新しいタブで開く"
               >
                 <FontAwesomeIcon
                   icon={faXTwitter}
                   className="socialIcon"
-                  aria-label="Xを新しいタブで開く"
+                  aria-hidden="true"
                 />
               </a>
 
@@ -293,11 +296,12 @@ export const Home = () => {
                 href="https://www.figma.com/@ac703618_65d6_4"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Figmaを新しいタブで開く"
               >
                 <FontAwesomeIcon
                   icon={faFigma}
                   className="socialIcon"
-                  aria-label="Figmaを新しいタブで開く"
+                  aria-hidden="true"
                 />
               </a>
 
@@ -305,11 +309,13 @@ export const Home = () => {
                 href="https://connpass.com/user/aachan_1127/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="コンパスのページを新しいタブで開く"
               >
                 <img
                   src="/connpass_icon-removebg.png"
-                  alt="コンパスのページを新しいタブで開く"
                   className="connpassIcon"
+                  alt=""
+                  aria-hidden="true"
                 />
               </a>
             </div>
@@ -331,9 +337,8 @@ export const Home = () => {
                   src={mainStudyPost.thumbnailUrl}
                   title={mainStudyPost.title}
                   imageClassName="studyMainImage"
+                  titleClassName="studyPostTitle"
                 />
-
-                <p className="studyPostTitle">{mainStudyPost.title}</p>
                 <TagList tags={mainStudyPost.tags} />
               </>
             ) : (
@@ -365,9 +370,8 @@ export const Home = () => {
                     src={subStudyPost.thumbnailUrl}
                     title={subStudyPost.title}
                     imageClassName="studySubImage"
+                    titleClassName="studyPostTitle"
                   />
-
-                  <p className="studyPostTitle">{subStudyPost.title}</p>
                   <TagList tags={subStudyPost.tags} />
                 </>
               ) : (
@@ -410,8 +414,8 @@ export const Home = () => {
                             src={post.thumbnailUrl}
                             title={post.title}
                             imageClassName="studyOtherImage"
+                            titleClassName="studyPostTitleOther"
                           />
-                          <p>{post.title}</p>
                         </>
                       ) : (
                         <div className="studyOtherPlaceholder">未設定</div>
@@ -499,13 +503,12 @@ export const Home = () => {
                   src={mainWorksPost.thumbnailUrl}
                   title={mainWorksPost.title}
                   imageClassName="worksMainImage"
+                  titleClassName="worksPostTitle"
                 />
-
-                <p className="worksPostTitle">{mainWorksPost.title}</p>
                 <TagList tags={mainWorksPost.tags} />
               </>
             ) : (
-              <p>Worksメイン未設定</p>
+              <h3>Worksメイン未設定</h3>
             )}
 
             {auth.currentUser && (
@@ -532,9 +535,8 @@ export const Home = () => {
                   src={subWorksPost.thumbnailUrl}
                   title={subWorksPost.title}
                   imageClassName="worksSubImage"
+                  titleClassName="worksPostTitle"
                 />
-
-                <p className="worksPostTitle">{subWorksPost.title}</p>
                 <TagList tags={subWorksPost.tags} />
               </>
             ) : (
@@ -671,7 +673,7 @@ export const Home = () => {
           </button>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 
