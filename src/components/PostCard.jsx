@@ -36,12 +36,10 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
 
       {/* 投稿のタイトルと本文 */}
       <div className="postBody">
-          <p className="postMeta">
-            {post.category?.toUpperCase()} ・{" "}
-            {post.workDate
-              ? post.workDate.replaceAll("-", "/")
-              : "作成日未設定"}
-          </p>
+        <p className="postMeta">
+          {post.category?.toUpperCase()} ・{" "}
+          {post.workDate ? post.workDate.replaceAll("-", "/") : "作成日未設定"}
+        </p>
 
         <h3 className="postTitle">{post.title}</h3>
         {/* タグ表示 */}
@@ -55,6 +53,7 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
               {/* ナビゲーションは PostList.jsx から渡された onEdit を実行するので、PostCard.jsx には navigate を書かない */}
               <AdminButton
                 type="button"
+                aria-label={`${post.title} を編集`}
                 onClick={(event) => {
                   // 編集ボタンをクリックしたときに、onClick（投稿の詳細ページへの遷移）も発火してしまうのを防ぐために、event.stopPropagation() で制御
                   event.stopPropagation();
@@ -70,6 +69,7 @@ export const PostCard = ({ post, onClick, onDelete, onEdit }) => {
             <button
               className="DeleteButton"
               type="button"
+              aria-label={`${post.title} を削除`}
               onClick={(event) => {
                 // 削除ボタンをクリックしたときに、onClick（投稿の詳細ページへの遷移）も発火してしまうのを防ぐために、event.stopPropagation() で制御
                 event.stopPropagation();

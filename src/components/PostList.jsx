@@ -80,7 +80,7 @@ export const PostList = ({ category, title }) => {
   });
 
   return (
-    <div className="homePage">
+    <main className="homePage">
       <button
         className="backButton"
         type="button"
@@ -100,6 +100,7 @@ export const PostList = ({ category, title }) => {
               selectedTag.length === 0 ? "isActive" : ""
             }`}
             type="button"
+            aria-pressed={selectedTag.length === 0}
             onClick={() => setSelectedTag([])}
           >
             すべて
@@ -112,6 +113,7 @@ export const PostList = ({ category, title }) => {
               }`}
               type="button"
               key={tag}
+              aria-pressed={selectedTag.includes(tag)}
               onClick={() => {
                 if (selectedTag.includes(tag)) {
                   // すでに選択されているタグをクリックした場合は、選択解除する
@@ -134,6 +136,7 @@ export const PostList = ({ category, title }) => {
             <button
               className={`sortSegment ${sortOrder === "new" ? "isActive" : ""}`}
               type="button"
+              aria-pressed={sortOrder === "new"}
               onClick={() => setSortOrder("new")}
             >
               新着順
@@ -142,6 +145,7 @@ export const PostList = ({ category, title }) => {
             <button
               className={`sortSegment ${sortOrder === "old" ? "isActive" : ""}`}
               type="button"
+              aria-pressed={sortOrder === "old"}
               onClick={() => setSortOrder("old")}
             >
               古い順
@@ -183,6 +187,6 @@ export const PostList = ({ category, title }) => {
           />
         ))}
       </div>
-    </div>
+    </main>
   );
 };
