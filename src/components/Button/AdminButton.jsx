@@ -1,8 +1,13 @@
 import "./AdminButton.css";
 
-function AdminButton({ children, onClick, type = "button" }) {
+function AdminButton({ children, onClick, type = "button", ...props }) {
   return (
-    <button className="adminButton" type={type} onClick={onClick}>
+    <button
+      className="adminButton"
+      type={type}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </button>
   );

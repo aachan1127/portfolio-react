@@ -156,26 +156,19 @@ export const PostList = ({ category, title }) => {
 
       <div className="postCardGrid">
         {sortedPosts.map((post) => (
-          // PostCardコンポーネントをクリックしたときの挙動
           <PostCard
             key={post.id}
             post={post}
-            onClick={() =>
-              navigate(
-                category === "all"
-                  ? `/posts/${post.id}`
-                  : post.category === "study"
-                    ? `/study/${post.id}`
-                    : `/works/${post.id}`,
-
-                {
-                  state: {
-                    from: category === "all" ? "/posts" : `/${post.category}`,
-                  },
-                },
-              )
+            detailPath={
+              category === "all"
+                ? `/posts/${post.id}`
+                : post.category === "study"
+                  ? `/study/${post.id}`
+                  : `/works/${post.id}`
             }
-            // 削除・編集ボタンの挙動
+            detailState={{
+              from: category === "all" ? "/posts" : `/${post.category}`,
+            }}
             onDelete={handleDelete}
             onEdit={(post) =>
               navigate(`/editpost/${post.id}`, {

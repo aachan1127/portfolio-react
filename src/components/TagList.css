@@ -36,7 +36,7 @@
 
 .tagReact {
   background: #e0f7ff;
-  color: #0079a0;
+  color: #006181;
 }
 .tagTypeScript {
   background: #e6e6fa;
@@ -54,8 +54,8 @@
 }
 
 .tagPhp {
-  background: #ff8282;
-  color: #ffffff;
+  background: #fbcdcd;
+  color: #8f4747;
 }
 
 .tagLaravel {
@@ -64,13 +64,13 @@
 }
 
 .tagDocker {
-  background: #4a89bc;
-  color: #e8f2fb;
+  background: #395e7c;
+  color: #ffffff;
 }
 
 .tagFirebase {
   background: #faae3d;
-  color: #614e32;
+  color: #493b26;
 }
 
 .tagAws {
