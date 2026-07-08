@@ -146,7 +146,7 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
       : post.postText;
 
   return (
-    <div className="postDetailPage">
+    <main className="postDetailPage">
       {/* 戻る */}
       <button
         type="button"
@@ -189,6 +189,7 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
               <button
                 type="button"
                 className="detailEditButton"
+                aria-label={`${post.title} を編集`}
                 onClick={() =>
                   navigate(`/editpost/${post.id}`, {
                     state: {
@@ -202,6 +203,7 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
               <button
                 type="button"
                 className="detailDeleteButton"
+                aria-label={`${post.title} を削除`}
                 onClick={handleDelete}
               >
                 削除
@@ -263,7 +265,14 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
           {isReadmeLoading ? (
             <p>READMEを読み込み中...</p>
           ) : (
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ ...props }) => <h2 {...props} />,
+                h2: ({ ...props }) => <h3 {...props} />,
+                h3: ({ ...props }) => <h4 {...props} />,
+              }}
+            >
               {descriptionText}
             </ReactMarkdown>
           )}
@@ -321,7 +330,7 @@ export const PostDetail = ({ title, backLabel, defaultBackPath }) => {
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 };
 
