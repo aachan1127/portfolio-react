@@ -2,21 +2,16 @@
 
 ## 概要
 
-エンジニアとして制作したアプリケーションや学習記録をまとめたポートフォリオサイトです。
+- エンジニアとして対応した案件や、個人開発（勉強用で作ったもの含め）をまとめたポートフォリオサイトです。
+- 各言語で自分がどんなことを理解して、何ができるのかも表にまとめて記載。
+- React・Firebaseを用いて開発し、作品紹介だけでなく管理画面から投稿の追加・編集・削除が行えます。
 
-React・Firebaseを用いて開発し、作品紹介だけでなく管理画面から投稿の追加・編集・削除が行えるようにしました。
-
-また、GitHubリポジトリのREADMEを自動取得して表示する機能や、VoiceOver・Lighthouseを活用したアクセシビリティ改善にも取り組んでいます。
 
 ---
 
-## 制作背景
+## 解決したい課題（なぜ作ったのか）
 
-制作物が増えるにつれて、HTMLを書き換えて更新するポートフォリオでは管理が煩雑になり、手間がかかってしまうと感じ、管理画面から更新できるポートフォリオサイトを制作しました。
-
-投稿データはFirestoreで管理し、サイトにログインすると投稿の削除や更新ができるようにしています。
-
-また、「作品を並べるだけ」ではなく、制作背景や工夫した点まで伝えられるサイトを目指し、GitHub READMEの自動表示機能やアクセシビリティへの取り組みを取り入れました。
+自分が対応した案件・個人開発を一覧で見れて、かつ、どんな言語をどこまで使用できるのかがわかるようなものを作りたかった。
 
 ---
 
@@ -88,76 +83,205 @@ https://github.com/aachan1127/portfolio-react
 
 ## システム構成
 
-```text
-ユーザー
+本ポートフォリオサイトは、React（Vite）でフロントエンドを構築し、Firebaseを利用して認証・データ管理・画像保存を行っています。
 
-      │
+また、投稿詳細画面ではGitHub上のREADMEを取得し、`ReactMarkdown`を使用してサイト内に表示しています。
 
-      ▼
+```mermaid
+flowchart TD
+    User["ユーザー<br>ブラウザ"]
 
-React
+    Vercel["Vercel<br>ホスティング"]
 
-      │
+    React["React / Vite<br>フロントエンド"]
 
-      ▼
+    Auth["Firebase Authentication<br>ログイン認証"]
 
-Firebase Authentication
+    Firestore["Cloud Firestore<br>投稿・スキル等のデータ"]
 
-      │
+    Storage["Firebase Storage<br>投稿画像"]
 
-      ▼
+    GitHub["GitHub<br>README.md"]
 
-Cloud Firestore
+    Markdown["ReactMarkdown<br>README表示"]
 
-      │
+    User --> Vercel
+    Vercel --> React
 
-      ▼
+    React --> Auth
+    React --> Firestore
+    React --> Storage
 
-Firebase Storage
+    React --> GitHub
+    GitHub --> Markdown
+    Markdown --> React
 ```
 
-### README取得の流れ
+### 各サービスの役割
 
-```text
-GitHub Repository
+| 技術・サービス                 | 役割                    |
+| ----------------------- | --------------------- |
+| React                   | UI・画面の構築              |
+| Vite                    | Reactの開発・ビルド環境        |
+| React Router            | ページ遷移・ルーティング          |
+| Firebase Authentication | 管理者のログイン認証            |
+| Cloud Firestore         | 投稿・スキルなどのデータ管理        |
+| Firebase Storage        | 投稿画像の保存               |
+| GitHub                  | 各制作物のREADME管理         |
+| ReactMarkdown           | GitHubから取得したREADMEの表示 |
+| Vercel                  | フロントエンドのホスティング・公開     |
 
-      │
 
-      ▼
+## 画面遷移図
 
-README.md
+```mermaid
+flowchart TD
+    Home["ホーム<br>/"]
 
-      │
+    Study["Study一覧<br>/study"]
+    StudyDetail["Study詳細<br>/study/:id"]
 
-      ▼
+    Works["Works一覧<br>/works"]
+    WorksDetail["Works詳細<br>/works/:id"]
 
-raw.githubusercontent.com
+    Posts["全投稿一覧<br>/posts"]
+    PostDetail["投稿詳細<br>/posts/:id"]
 
-      │
+    Login["ログイン<br>/login"]
+    Logout["ログアウト<br>/logout"]
 
-      ▼
+    CreatePost["投稿作成<br>/createpost"]
+    EditPost["投稿編集<br>/editpost/:id"]
 
-React Markdown
+    SkillDetail["Skill詳細<br>/skills/:skillId"]
+    SkillEdit["Skill編集<br>/skills/:skillId/edit"]
+    SkillCreate["Skill新規作成<br>/skill-categories/:categoryId/skills/new"]
 
-      │
+    Home --> Study
+    Study --> StudyDetail
 
-      ▼
+    Home --> Works
+    Works --> WorksDetail
 
-ポートフォリオサイト
+    Home --> Posts
+    Posts --> PostDetail
+
+    Home --> SkillDetail
+
+    Home --> Login
+    Login --> Home
+    Home --> Logout
+
+    Home --> CreatePost
+
+    StudyDetail --> EditPost
+    WorksDetail --> EditPost
+    PostDetail --> EditPost
+
+    SkillDetail --> SkillEdit
+    Home --> SkillCreate
 ```
+
+※ 投稿作成ページは未ログインの場合ログイン画面へ遷移。</br>
+投稿の編集・削除ボタン、トップページの表示枠変更、Skillの作成・編集ボタンはログイン中のみ画面に表示される。</br>
 
 ---
+
+## コンポーネント構成図
+
+
+```mermaid
+flowchart TD
+    App["App.jsx"]
+
+    Home["Home.jsx"]
+    StudyList["StudyList.jsx"]
+    WorksList["WorksList.jsx"]
+    AllPosts["AllPosts.jsx"]
+    PostList["PostList.jsx"]
+    PostDetail["PostDetail.jsx"]
+    StudyDetail["StudyDetail.jsx"]
+    WorksDetail["WorksDetail.jsx"]
+    CreatePost["CreatePost.jsx"]
+    EditPost["EditPost.jsx"]
+    Login["Login.jsx"]
+    Logout["Logout.jsx"]
+    Navbar["Navbar.jsx"]
+
+    PostCard["PostCard.jsx"]
+    TagList["TagList.jsx"]
+    ThumbnailLink["ThumbnailLink.jsx"]
+
+    SkillPosts["SkillPosts.jsx"]
+    SkillFormPage["SkillFormPage.jsx"]
+
+    ReactMarkdown["ReactMarkdown"]
+
+    App --> Navbar
+    App --> Home
+    App --> StudyList
+    App --> WorksList
+    App --> AllPosts
+    App --> PostDetail
+    App --> StudyDetail
+    App --> WorksDetail
+    App --> CreatePost
+    App --> EditPost
+    App --> Login
+    App --> Logout
+    App --> SkillPosts
+    App --> SkillFormPage
+
+    StudyList --> PostList
+    WorksList --> PostList
+    AllPosts --> PostList
+    PostList --> PostCard
+
+    Home --> ThumbnailLink
+    Home --> TagList
+    PostCard --> TagList
+
+    StudyDetail --> PostDetail
+    WorksDetail --> PostDetail
+
+    PostDetail --> TagList
+    PostDetail --> ReactMarkdown
+```
+
+### 主な役割
+
+| ファイル・コンポーネント     | 役割                                 |
+| ---------------- | ---------------------------------- |
+| `App.jsx`        | ルーティングやアプリ全体の入口                    |
+| `Home.jsx`       | トップページを表示                          |
+| `Navbar.jsx`     | ナビゲーションを表示                         |
+| `StudyList.jsx`  | Study一覧ページとして`PostList`を呼び出す        |
+| `WorksList.jsx`  | Works一覧ページとして`PostList`を呼び出す        |
+| `AllPosts.jsx`   | 全投稿一覧ページとして`PostList`を呼び出す          |
+| `PostList.jsx`   | Study・Works・全投稿などの投稿一覧を表示          |
+| `StudyDetail.jsx` | Study詳細ページとして`PostDetail`を呼び出す      |
+| `WorksDetail.jsx` | Works詳細ページとして`PostDetail`を呼び出す      |
+| `PostDetail.jsx` | 投稿詳細、画像、GitHub README、YouTubeなどを表示 |
+| `CreatePost.jsx` | 投稿を新規作成                            |
+| `EditPost.jsx`   | 投稿を編集                              |
+| `Login.jsx`      | 管理者ログイン                            |
+| `Logout.jsx`     | ログアウト処理                            |
+| `PostCard.jsx`   | 投稿1件分のカードを表示する共通コンポーネント            |
+| `TagList.jsx`    | 投稿に設定されたタグを表示する共通コンポーネント           |
+| `ThumbnailLink.jsx` | トップページのサムネイル付きリンクを表示           |
+| `SkillPosts.jsx` | Skillの詳細と、そのSkillに関連する投稿を表示         |
+| `SkillFormPage.jsx` | Skillの編集・新規作成を担当                |
+| `ReactMarkdown`  | GitHubから取得したREADMEをMarkdownとして表示   |
+
 
 # 工夫した点
 
 ## GitHub READMEの自動取得
-作品を更新した際の、投稿詳細画面での説明文の書き換えの手間を省くために、
+作品を更新した際の、投稿詳細画面での説明文の書き換えの手間を省くために、</br>
+投稿時にGitHubリポジトリURLを登録すると、そのリポジトリのREADME.mdを取得し、React Markdownで表示する仕組みを実装しました。</br>
+READMEをGitHub側で更新するだけでポートフォリオにも反映されるため、管理がしやすくなるように工夫しました。
 
-投稿時にGitHubリポジトリURLを登録すると、そのリポジトリのREADME.mdを取得し、React Markdownで表示する仕組みを実装しました。
-
-こちらは、READMEをGitHub側で更新するだけでポートフォリオにも反映されるため、管理がしやすくなるように工夫しました。
-
-READMEを表示させるか、自分で直接記載したものを表示させるかは、管理画面で選択できるようにしています。
+※ 【READMEを表示させるか】、【自分で直接記載したものを表示させるか】は、管理画面で選択できるようにしています。
 
 ---
 
@@ -165,15 +289,16 @@ READMEを表示させるか、自分で直接記載したものを表示させ�
 
 より多くの人が閲覧しやすいサイトを目指し、アクセシビリティ改善に取り組みました。
 
-実施した内容
+ー　実施した内容　ー
 
-- VoiceOverによる操作確認
+- VoiceOverによる操作確認（キーボード操作への対応）
 - LighthouseによるAccessibilityチェックの実施
 - Claude Cowork によるアクセシビリティチェックの実施
-- WAVEによるセマンティック構造のチェック
+- WAVEによるチェック
+
+ー　改善した内容　ー
 - 見出しレベルの見直し
 - alt属性の改善
-- キーボード操作への対応
 - フォーカス表示の改善
 - コントラストの改善
 
@@ -191,31 +316,30 @@ READMEを表示させるか、自分で直接記載したものを表示させ�
 
 ---
 
-## コンポーネント設計
-
-コンポーネントを役割ごとに分割し、再利用しやすい構成を意識しました。
-
----
 
 # 苦労したこと・解決方法
 
-## GitHub README表示
+## 1. GitHub README表示
 
 ### 課題
 
-GitHub上のREADMEをそのまま表示したいと考えました。
+「GitHub上のREADMEをそのまま表示したい」
+
+(GitHubのAPIを利用すると、取得回数に上限があったりしたので、まずはAPIを利用せずに表示できる方法はないかと模索しました)
 
 ### 解決方法
 
-GitHub APIではなく、raw.githubusercontent.comからREADME.mdを取得し、React Markdownで表示する仕組みを実装しました。
+GitHub APIではなく、raw.githubusercontent.comからREADME.mdを取得し、React Markdownで表示する仕組みを実装
 
 ---
 
-## アクセシビリティ改善
+## 2. アクセシビリティ改善
 
 ### 課題
 
-VoiceOverで投稿カードの内容が適切に読み上げられない問題がありました。
+「VoiceOverで投稿カードの内容が適切に読み上げられない問題がありました。」
+
+（投稿カードにキーボード操作でフォーカスが当たらないので、投稿の詳細ページに遷移できなくなってしまっていた）
 
 ### 解決方法
 
@@ -226,21 +350,22 @@ VoiceOverで投稿カードの内容が適切に読み上げられない問題�
 
 を行い、スクリーンリーダーでも利用しやすいよう改善しました。
 
+↓ この今回の対応を下記技術記事にまとめています。
+https://zenn.dev/aachan/articles/1de49888ab9257
+
+
+
 ---
 
 # 今後改善したいこと
 
 - 検索機能
 - ダークモード
-- テストコードの追加
 - ページネーション
-（投稿数が増えた場合に備え、Firestoreの`limit`と`startAfter`を使用したページネーションを実装する）
 - GitHub API対応
 （GitHub APIを利用して、READMEだけでなく使用言語や最終更新日などのリポジトリ情報も表示する）
-- パフォーマンス改善
-（画像の圧縮・遅延読み込みや、Firestoreの取得クエリの見直しによって表示速度を改善する）
-- CI/CDの導入
-（GitHub Actionsを使用し、push時にESLint・テスト・ビルド確認を自動実行する・CDは実装済み）
+- CI/CDの導入（CDは実装済み）
+（GitHub Actionsを使用し、push時にESLint・テスト・ビルド確認を自動実行する
 - キャッシュ対応
 （GitHub READMEや投稿データをキャッシュし、同じデータへの不要な再通信を減らす）
 ---
@@ -285,44 +410,5 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=
 VITE_FIREBASE_APP_ID=
 ```
 
----
-
-# ディレクトリ構成
-
-```text
-src
-├── components
-├── lib
-├── assets
-├── utils
-├── App.jsx
-├── main.jsx
-```
 
 ---
-
-# 開発で大切にしたこと
-
-このポートフォリオでは、「作品を公開すること」だけでなく、保守性・アクセシビリティ・運用性を意識して開発しました。
-
-特に、GitHub READMEとの連携による情報管理や、VoiceOver・Lighthouseを活用したアクセシビリティ改善を継続して行っています。
-
-今後も改善を続けながら、より使いやすく保守しやすいアプリケーションへ成長させていきたいと考えています。
-
----
-
-# 作者
-
-**山本 明音**
-
-GitHub
-
-https://github.com/aachan1127
-
-Portfolio
-
-https://portfolio-react-rho-snowy.vercel.app/
-
-X
-
-https://x.com/aachan_y27
